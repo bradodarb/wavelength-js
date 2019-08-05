@@ -68,7 +68,8 @@
     "reusify": "^1.0.4",
     "serverless-dynamodb-client": "^0.0.2",
     "serverless-jest-plugin": "^0.1.6",
-    "uuid": "^3.0.1"
+    "uuid": "^3.0.1",
+    "mem": "4.0.0"
   },
   "jest": {
     "clearMocks": true,
