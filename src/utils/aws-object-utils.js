@@ -70,7 +70,7 @@ function getStandardError({
 
 /**
  * Converts base application exception to standard output
- * @param err {BODBaseException}
+ * @param err {BaseException}
  * @returns {{body: string, headers: *, statusCode: number}}
  */
 function getStandardResponseFromError(err) {

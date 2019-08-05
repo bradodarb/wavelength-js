@@ -163,7 +163,7 @@ class Wavelength {
   checkCancellationError(error) {
     if (error instanceof CancelExecutionError) {
       this.logger.error({ event: 'Handler Middleware Exception', err: error });
-      this.state.push({ error: new Base424Exception().getResponse(this.state.context) });
+      this.state.push({ error: new BaseException().getResponse(this.state.context) });
       return true;
     }
     return false;

@@ -15,7 +15,7 @@ describe('Testing Jest Reporter compatibility issues', () => {
   });
 
   jest.mock('../../../src')
-  it('checks that BODBaseException.getResponse object is formatted correctly', () => {
+  it('checks that BaseException.getResponse object is formatted correctly', () => {
 
     var wl= new Wavelength({name:'red', event:{}, context:testContext});
 

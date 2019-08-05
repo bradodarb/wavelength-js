@@ -14,14 +14,14 @@ describe('Testing Errors', () => {
     done();
   });
 
-  it('checks that BODBaseException.getResponse object is formatted correctly', () => {
+  it('checks that BaseException.getResponse object is formatted correctly', () => {
     const error = new errors.CancelExecutionError();
 
     expect(error instanceof Error).toBeTruthy();
   });
 
-  it('checks that BODBaseException.getResponse object is formatted correctly', () => {
-    const error = new errors.BODBaseException('Test Error', 'Someone set us up the bomb', 418);
+  it('checks that BaseException.getResponse object is formatted correctly', () => {
+    const error = new errors.BaseException('Test Error', 'Someone set us up the bomb', 418);
     const reponse = error.getResponse(testContext, 400);
     expect(reponse.statusCode).toBe(400);
     const responseBody = JSON.parse(reponse.body);

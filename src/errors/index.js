@@ -215,7 +215,7 @@ class Base5xxException extends BaseException {
 
 module.exports = {
   errorCodes,
-  BODBaseException: BaseException,
+  BaseException,
   Base4xxException,
   Base401Exception,
   Base403Exception,
