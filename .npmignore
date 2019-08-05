@@ -1,0 +1,8 @@
+/test
+.travis.yml
+docker-compose.yml
+Dockerfile
+Makefile
+README.md
+travis_run.sh
+yarn.lock

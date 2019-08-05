@@ -1,0 +1,188 @@
+/** @module wavelength */
+const { reach } = require('hoek');
+const StructLog = require('../logging');
+const Metrics = require('../logging/inoculators/metrics');
+const { Decay } = require('./middle-ware');
+const { getStandardResponse, getStandardError } = require('../utils/aws-object-utils');
+const pii = require('../utils/pii');
+const {
+  Base4xxException, Base5xxException, CancelExecutionError, Base424Exception,
+} = require('../errors');
+const { HandlerState } = require('./handler-state');
+
+/**
+ * @class
+ * Wraps a lambda function in a similar way as express or koa creates an app
+ */
+class Wavelength {
+  /**
+   * Ctor for a Wavelength instance
+   * @param name {string} name of the app
+   * @param event {object} incoming AWS lambda event object
+   * @param context {object} incoming AWS lambda context object
+   * @param filters {[function]} log event filters
+   * @param callback {function} incoming AWS lambda callback (for legacy support ONLY)
+   */
+  constructor({
+    name, event, context, callback = undefined, filters = [],
+  } = {}) {
+    this.callback = callback;
+    this.logger = new StructLog(name, context, pii.defaultFilters(filters));
+    this.middleWare = new Decay(this.complete.bind(this));
+    this.state = new HandlerState(name, event, context, this.logger);
+
+    this.logger.inoculate('metrics', new Metrics.MetricsInoculator());
+  }
+
+  /**
+   * Runs the application handler after all the middleware has been registered
+   * @param handler {function} handler function
+   * @returns {Promise<*>} Because AWS lambda supports async.  Even legacy style
+   * callback handlers will be transformed to return an awaitable
+   */
+  async run(handler) {
+    this.middleWare.use(async (state) => {
+      state.push({ response: await handler(this.state) });
+    });
+    try {
+      if (this.checkForWarmup()) {
+        this.logger.info({
+          event: 'TRACE',
+          details:
+            'serverless plugin warmup invocation, skipping processing',
+          limitOutput: false,
+          bindings: { state: 'Skip' },
+        });
+        return this.closeLambda();
+      }
+      this.onInvoke();
+      await this.middleWare.invoke(this.state);
+    } catch (e) {
+      this.handleError(e);
+    } finally {
+      this.logger.flush();
+    }
+    return this.closeLambda();
+  }
+
+  /**
+   * Global error handler to return an application error when possible
+   * if the error that was trapped is not an application error, just emit a 500
+   * @param error {Error}
+   */
+  handleError(error) {
+    if (this.checkCancellationError(error)) {
+      return;
+    }
+    if (this.checkApplicationError(error, Base4xxException)) {
+      return;
+    }
+    if (this.checkApplicationError(error, Base5xxException)) {
+      return;
+    }
+    this.state.push({
+      error: getStandardError({ message: 'Unexpected Server Error', status: 500, reason: error.message }),
+    });
+  }
+
+  /**
+   * Trace function to log result of lambda handler execution
+   * @param err {Error}
+   * @param state {HandlerState}
+   */
+  complete(err, state) {
+    if (err) {
+      this.logger.error({ event: 'Lambda Execution Failed', err });
+      throw err;
+    }
+    this.logger.debug({ event: 'Lambda Execution Success', bindings: { result: state.response } });
+  }
+
+  /**
+   * Returns an awaitable based on the returned result of the handler or a callback result
+   * @returns {Promise<*>}
+   */
+  async closeLambda() {
+    let result;
+    let err;
+    if (this.state.error) {
+      err = this.state.error;
+    } else {
+      const { status, response: body } = this.state;
+      result = getStandardResponse({ status, body });
+    }
+    this.onClose();
+    if (this.callback) {
+      this.callback(err, result);
+    }
+    return err || result;
+  }
+
+  /**
+   * Trace function to log that a lambda has been executed
+   */
+  onInvoke() {
+    this.logger.info({
+      event: 'TRACE',
+      bindings: {
+        lambda_event: this.state.event,
+        state: 'Invoked',
+        context: this.state.context,
+      },
+    });
+  }
+
+  /**
+   * race function to log that lambda execution has completed
+   * @param result {*} final result of the handler
+   */
+  onClose(result) {
+    this.logger.info({
+      event: 'TRACE',
+      bindings: {
+        state: 'Completed',
+        return_result: result,
+      },
+    });
+    if (result) {
+      this.logger.append({
+        return_status: result,
+      });
+    }
+  }
+
+  /**
+   * Utility function to determine if the current lambda invocation was
+   * triggered by the serverless lambda warmup plugin
+   * @returns {boolean}
+   */
+  checkForWarmup() {
+    return reach(this, 'state.event.source') === 'serverless-plugin-warmup';
+  }
+
+  checkCancellationError(error) {
+    if (error instanceof CancelExecutionError) {
+      this.logger.error({ event: 'Handler Middleware Exception', err: error });
+      this.state.push({ error: new Base424Exception().getResponse(this.state.context) });
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Function to evaluate whether a trapped error is an application error or unhandled exception
+   * @param error {Error} trapped error
+   * @param type {object} type to check against
+   * @returns {boolean} if the error is of expected type
+   */
+  checkApplicationError(error, type) {
+    if (error instanceof type) {
+      this.state.push({ error: error.getResponse(this.state.context) });
+      return true;
+    }
+    return false;
+  }
+}
+
+
+module.exports = { Wavelength };
