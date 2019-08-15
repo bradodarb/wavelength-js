@@ -3,7 +3,63 @@ Shared Node Library for managing AWS Lambda application lifecycles.
 Middleware, global response handling, Logging, Error Handling etc
 
 
-2. `yarn add @bbnb/wavelength`
+`yarn add wavelength-js`
+
+
+
+## Application
+
+
+Inside your function handler, create a Wavelength instance
+
+```js
+module.exports.add = async (event, context) => {
+    const app = new Wavelength({ name: 'Fulfillment API', event, context });
+    
+    ...
+    Next step: add middleware
+    ...
+}
+
+```
+
+Once you've created a lightweight application runner, add some middleware using a familiar syntax
+
+
+```js
+
+module.exports.add = async (event, context) => {
+    const app = new Wavelength({ name: 'Fulfillment API', event, context });
+    
+    app.middleWare.use([accessToken, checkUserRole, validateBody]);
+    
+    ...
+    Next step: run handler
+    ...
+}
+
+```
+
+
+Now we can add our function that determines the final response.
+
+The return from this function will be transformed by the Wavelength app into a common format that is suitable for any Lambda event response, including the AWS API Gateway.
+
+```js
+
+module.exports.add = async (event, context) => {
+    const app = new Wavelength({ name: 'Fulfillment API', event, context });
+    
+    app.middleWare.use([accessToken, checkUserRole, validateBody]);
+    
+    return app.run(async (state) => {
+      
+      return { success: true };
+    }
+}
+
+```
+
 ## Legacy Logging
 For projects in transition to take advantage of the library's execution pipeline pattern, we've introduced
 a bootstrapping function to override the `console` object with our structured logger.
