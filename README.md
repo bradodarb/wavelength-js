@@ -14,7 +14,7 @@ Inside your function handler, create a Wavelength instance
 
 ```js
 module.exports.add = async (event, context) => {
-    const app = new Wavelength({ name: 'Fulfillment API', event, context });
+    const app = new Wavelength({ name: 'MyRestful API', event, context });
     
     ...
     Next step: add middleware
@@ -29,7 +29,7 @@ Once you've created a lightweight application runner, add some middleware using 
 ```js
 
 module.exports.add = async (event, context) => {
-    const app = new Wavelength({ name: 'Fulfillment API', event, context });
+    const app = new Wavelength({ name: 'MyRestful API', event, context });
     
     app.middleWare.use([accessToken, checkUserRole, validateBody]);
     
@@ -48,7 +48,7 @@ The return from this function will be transformed by the Wavelength app into a c
 ```js
 
 module.exports.add = async (event, context) => {
-    const app = new Wavelength({ name: 'Fulfillment API', event, context });
+    const app = new Wavelength({ name: 'MyRestful API', event, context });
     
     app.middleWare.use([accessToken, checkUserRole, validateBody]);
     
@@ -66,7 +66,7 @@ a bootstrapping function to override the `console` object with our structured lo
 
 
 ```
-const logLambda = require('@bbnb/connect-serverless-lib').bootstrapHandlerLogging;
+const logLambda = require('wavelength-js').bootstrapHandlerLogging;
 ```
 
 Once imported, wrap your existing function:
@@ -112,7 +112,7 @@ and a `flush` function is added to allow the handler to flush the buffered logs 
  
 ## Errors (Throwing application level errors)
 
-`const {errors, awsUtils} = require('@bbnb/connect-serverless-lib');`
+`const {errors, awsUtils} = require('wavelength-js');`
 
 
 The Exception classes derive from `BaseException`, which has the `getResponse` method that is used to build a
