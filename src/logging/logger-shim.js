@@ -64,7 +64,7 @@ class LegacyLogger {
   /**
    *  Converts arguments array to a structured log entry
    * @param args {*}
-   * @returns {object} An object suitable for creating a structured og event
+   * @returns {object} An object suitable for creating a structured log event
    */
   static buildLogEntry(args) {
     const result = {};

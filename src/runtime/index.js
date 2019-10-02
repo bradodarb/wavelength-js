@@ -1,5 +1,5 @@
 /** @module wavelength */
-const { reach } = require('hoek');
+const { reach } = require('@hapi/hoek');
 const StructLog = require('../logging');
 const Metrics = require('../logging/inoculators/metrics');
 const { Decay } = require('./middle-ware');
