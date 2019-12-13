@@ -6,7 +6,7 @@ const { Decay } = require('./middle-ware');
 const { getStandardResponse, getStandardError } = require('../utils/aws-object-utils');
 const pii = require('../utils/pii');
 const {
-  Base4xxException, Base5xxException, CancelExecutionError, Base424Exception,
+  Base4xxException, Base5xxException, CancelExecutionError, BaseException,
 } = require('../errors');
 const { HandlerState } = require('./handler-state');
 
@@ -163,7 +163,7 @@ class Wavelength {
   checkCancellationError(error) {
     if (error instanceof CancelExecutionError) {
       this.logger.error({ event: 'Handler Middleware Exception', err: error });
-      this.state.push({ error: new BaseException().getResponse(this.state.context) });
+      this.state.push({ error: new BaseException().getResponse(this.state.context, 0) });
       return true;
     }
     return false;

@@ -1,6 +1,6 @@
 {
   "name": "wavelength-js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Serverless micro-framework and support utilities",
   "main": "src/index.js",
   "directories": {
@@ -42,7 +42,6 @@
     "babel-jest": "^24.5.0",
     "babel-loader": "8.0.4",
     "babel-plugin-source-map-support": "^2.1.1",
-    "dotenv": "^6.0.0",
     "eslint": "5.0.1",
     "eslint-config-airbnb-base": "12.1.0",
     "eslint-plugin-import": "2.12.0",
@@ -52,22 +51,18 @@
     "jest-cli": "@24.9.0",
     "jest-environment-jsdom": "^24.9.0",
     "jest-html-reporter": "^2.4.2",
-    "jest-xml-matcher": "^1.1.1",
-    "mockdate": "^2.0.2",
-    "npm": "^6.4.1"
+    "jest-xml-matcher": "^1.1.1"
   },
   "dependencies": {
     "@hapi/hoek": "^8.2.5",
     "aws-sdk": "^2.244.1",
     "axios": "^0.18.0",
     "bunyan": "^1.8.12",
-    "cheerio": "^1.0.0-rc.2",
     "fast-safe-stringify": "^2.0.6",
     "lodash": "^4.17.10",
     "mem": "4.0.0",
     "moment": "^2.22.2",
     "reusify": "^1.0.4",
-    "serverless-dynamodb-client": "^0.0.2",
     "serverless-jest-plugin": "^0.1.6",
     "uuid": "^3.0.1"
   },
