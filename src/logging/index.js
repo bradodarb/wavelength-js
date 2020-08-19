@@ -29,6 +29,13 @@ class StructLog {
   }
 
   /**
+   * Updates this logger's context bindings
+   * @param context {object} incoming AWS lambda context object
+   */
+  set context(context) {
+    this.logger = this.getStructuredLogger(context);
+  }
+  /**
    * Helper function to build a log emitter at a given level
    * @param level
    * @returns {function(): log}
@@ -100,6 +107,7 @@ class StructLog {
       ],
     });
   }
+
 
   /**
      * Build object for logger payload

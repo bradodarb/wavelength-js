@@ -28,12 +28,30 @@ class Wavelength {
   constructor({
     name, event, context, callback = undefined, filters = [],
   } = {}) {
+    this.name = name;
     this.callback = callback;
     this.logger = new StructLog(name, context, pii.defaultFilters(filters));
     this.middleWare = new Decay(this.complete.bind(this));
     this.state = new HandlerState(name, event, context, this.logger);
 
     this.logger.inoculate('metrics', new Metrics.MetricsInoculator());
+  }
+
+  /**
+   * Callable Style application runner
+   * @param handlerFunction
+   * @returns {function(*=, *=, *): Promise<*>}
+   */
+  handler(handlerFunction) {
+    const handle = async (event, context, callback) => {
+      this.logger.name = this.name;
+      this.logger.context = context;
+      this.callback = callback;
+      this.state = new HandlerState(this.name, event, context, this.logger);
+      return this.run(handlerFunction);
+    };
+    handle.bind(this);
+    return handle;
   }
 
   /**
