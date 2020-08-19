@@ -2,7 +2,7 @@
 const StructLog = require('../../../src/logging');
 const { HandlerState } = require('../../../src/runtime/handler-state');
 const { Decay } = require('../../../src');
-const { Base422Exception } = require('../../../src/errors');
+const { Base422Exception } = require('../../../src/contrib/errors/aws-apig');
 const Context = require('../../util/lambda-context-mock');
 
 async function terminal(err, context) {

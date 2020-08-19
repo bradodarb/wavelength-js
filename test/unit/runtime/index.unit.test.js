@@ -2,7 +2,7 @@
 const { Wavelength, errors, contrib: { middleware: { aws: { lambdaWarmupMiddleware } } } } = require('../../../src');
 const Context = require('../../util/lambda-context-mock');
 const { createAPIGatewayEvent } = require('../../util/api-gateway-event-mock');
-
+const { errors: { awsAPIG: apiErrors } } = require('../../../src/contrib');
 
 describe('Testing Runtime Engine', () => {
   beforeAll((done) => {
@@ -86,7 +86,7 @@ describe('Testing Runtime Engine', () => {
       },
       function errorMiddleWare(state) {
         state.logger.info({ bindings: { state, ...{ ware: 1 } } });
-        return new errors.Base4xxException('Someone set us up the bomb');
+        return new apiErrors.Base4xxException('Someone set us up the bomb');
       }]);
 
     const result = await app.run(async (state) => {
@@ -118,7 +118,7 @@ describe('Testing Runtime Engine', () => {
       },
       function errorMiddleWare(state) {
         state.logger.info({ bindings: { state, ...{ ware: 1 } } });
-        return new errors.Base4xxException('Someone set us up the bomb');
+        return new apiErrors.Base4xxException('Someone set us up the bomb');
       }]);
 
     await app.run(async (state) => {
@@ -142,7 +142,7 @@ describe('Testing Runtime Engine', () => {
 
     const result = await app.run(async (state) => {
       state.logger.info({ event: 'App handler' });
-      throw new errors.Base4xxException('Someone set us up the bomb');
+      throw new apiErrors.Base4xxException('Someone set us up the bomb');
     });
     expect(result.statusCode).toBe(400);
     const responseBody = JSON.parse(result.body);
@@ -170,7 +170,7 @@ describe('Testing Runtime Engine', () => {
 
     await app.run(async (state) => {
       state.logger.info({ event: 'App handler' });
-      throw new errors.Base4xxException('Someone set us up the bomb');
+      throw new apiErrors.Base4xxException('Someone set us up the bomb');
     });
   });
 
