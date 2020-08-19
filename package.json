@@ -48,20 +48,16 @@
     "install": "^0.12.2",
     "jest": "^23.x",
     "jest-ajv": "1.0.3",
-    "jest-cli": "@24.9.0",
+    "jest-cli": "^26.4.0",
     "jest-environment-jsdom": "^24.9.0",
     "jest-html-reporter": "^2.4.2",
     "jest-xml-matcher": "^1.1.1"
   },
   "dependencies": {
-    "@hapi/hoek": "^8.2.5",
-    "aws-sdk": "^2.244.1",
-    "axios": "^0.18.0",
     "bunyan": "^1.8.12",
     "fast-safe-stringify": "^2.0.6",
     "lodash": "^4.17.10",
     "mem": "4.0.0",
-    "moment": "^2.22.2",
     "reusify": "^1.0.4",
     "serverless-jest-plugin": "^0.1.6",
     "uuid": "^3.0.1"

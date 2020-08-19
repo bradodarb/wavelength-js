@@ -1,8 +1,24 @@
 
 const uuid = require('uuid');
-const moment = require('moment');
 const pkg = require('../../package.json');
 
+function formatDate(date) {
+  const d = new Date(date);
+
+
+  let month = `${d.getMonth() + 1}`;
+
+
+  let day = `${d.getDate()}`;
+
+
+  const year = d.getFullYear();
+
+  if (month.length < 2) { month = `0${month}`; }
+  if (day.length < 2) { day = `0${day}`; }
+
+  return [year, month, day].join('-');
+}
 
 class ContextMock {
   constructor(options) {
@@ -24,7 +40,7 @@ class ContextMock {
     this.awsRequestId = id;
     this.invokeid = id;
     this.logGroupName = `/aws/lambda/${opts.functionName}`;
-    this.logStreamName = `${moment().format('YYYY/MM/DD')}/[${opts.functionVersion}]/${uuid.v4().replace(/-/g, '')}`;
+    this.logStreamName = `${formatDate(new Date())}/[${opts.functionVersion}]/${uuid.v4().replace(/-/g, '')}`;
   }
 
   getRemainingTimeInMillis() {
