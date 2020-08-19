@@ -1,12 +1,14 @@
 /** @module wavelength */
-const { reach } = require('@hapi/hoek');
 const StructLog = require('../logging');
 const Metrics = require('../logging/inoculators/metrics');
 const { Decay } = require('./middle-ware');
 const { getStandardResponse, getStandardError } = require('../utils/aws-object-utils');
 const pii = require('../utils/pii');
 const {
-  Base4xxException, Base5xxException, CancelExecutionError, BaseException,
+  Base4xxException, Base5xxException,
+} = require('../contrib/errors/aws-apig');
+const {
+  CancelExecutionError, BaseException,
 } = require('../errors');
 const { HandlerState } = require('./handler-state');
 
