@@ -7,6 +7,7 @@ const errors = require('./errors');
 const awsUtils = require('./utils/aws-object-utils');
 const { Retry } = require('./utils/retrying');
 const pii = require('./utils/pii');
+const contrib = require('./contrib');
 
 module.exports = {
   awsUtils,
@@ -19,4 +20,5 @@ module.exports = {
   Wavelength,
   Retry,
   pii,
+  contrib,
 };
