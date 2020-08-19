@@ -193,4 +193,30 @@ describe('Testing Runtime Engine', () => {
     expect(result.statusCode).toBe(201);
     expect(JSON.parse(result.body)).toEqual({ success: true });
   });
+
+
+  it('checks status code in state is applied to response from handler style', async () => {
+    const event = createAPIGatewayEvent({ body: 1234 });
+    const contextMock = new Context();
+
+    const app = new Wavelength({ name: 'Test API', event, context: contextMock });
+
+    app.middleWare.use([
+      function sampleMiddleWare(state) {
+        state.logger.info({ bindings: { state, ...{ ware: 1 } } });
+        state.push({ status: 201 });
+      }]);
+
+    const handler = app.handler(async (state) => {
+      state.logger.info({ event: 'App handler' });
+      return { result: state.event.body };
+    });
+    let result = await handler(event, contextMock);
+    expect(result.statusCode).toBe(201);
+    expect(JSON.parse(result.body).result).toEqual(1234);
+    event.body = 'abcd';
+    result = await handler(event, contextMock);
+    expect(result.statusCode).toBe(201);
+    expect(JSON.parse(result.body).result).toEqual('abcd');
+  });
 });
