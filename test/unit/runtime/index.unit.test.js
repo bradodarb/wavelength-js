@@ -1,5 +1,5 @@
 
-const { Wavelength, errors } = require('../../../src');
+const { Wavelength, errors, contrib: { middleware: { aws: { lambdaWarmupMiddleware } } } } = require('../../../src');
 const Context = require('../../util/lambda-context-mock');
 const { createAPIGatewayEvent } = require('../../util/api-gateway-event-mock');
 
@@ -20,16 +20,19 @@ describe('Testing Runtime Engine', () => {
     event.source = 'serverless-plugin-warmup';
     const app = new Wavelength({ name: 'Test API', event, context: contextMock });
 
-    app.middleWare.use([function sampleMiddleWare(state) {
-      state.logger.info({ bindings: { state, ...{ ware: 1 } } });
-      Object.assign(state, { requestResult: 200 });
-    }]);
+    app.middleWare.use([lambdaWarmupMiddleware,
+      function sampleMiddleWare(state) {
+        state.logger.info({ bindings: { state, ...{ ware: 1 } } });
+        Object.assign(state, { requestResult: 200 });
+      }]);
 
     const result = await app.run(async (state) => {
       state.logger.info({ event: 'App handler' });
       return { status: state.requestResult };
     });
-    expect(result.statusCode).toBe(200);
+    expect(result.statusCode).toBe(444);
+    const response = JSON.parse(result.body);
+    expect(response.cancelled).toBeTruthy();
   });
   it('checks app runs async style success path', async () => {
     const event = createAPIGatewayEvent();

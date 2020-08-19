@@ -45,24 +45,14 @@ class Wavelength {
       state.push({ response: await handler(this.state) });
     });
     try {
-      if (this.checkForWarmup()) {
-        this.logger.info({
-          event: 'TRACE',
-          details:
-            'serverless plugin warmup invocation, skipping processing',
-          limitOutput: false,
-          bindings: { state: 'Skip' },
-        });
-        return this.closeLambda();
-      }
       this.onInvoke();
       await this.middleWare.invoke(this.state);
     } catch (e) {
       this.handleError(e);
-    } finally {
-      this.logger.flush();
     }
-    return this.closeLambda();
+    const result = this.closeLambda();
+    this.logger.flush();
+    return result;
   }
 
   /**
@@ -95,7 +85,7 @@ class Wavelength {
       this.logger.error({ event: 'Lambda Execution Failed', err });
       throw err;
     }
-    this.logger.debug({ event: 'Lambda Execution Success', bindings: { result: state.response } });
+    this.logger.info({ event: 'Lambda Execution Success', bindings: { result: state.response } });
   }
 
   /**
@@ -152,21 +142,16 @@ class Wavelength {
   }
 
   /**
-   * Utility function to determine if the current lambda invocation was
-   * triggered by the serverless lambda warmup plugin
+   * Detects a cancellation error, which acts a token to request the execution lifecycle exit early
+   * @param error
    * @returns {boolean}
    */
-  checkForWarmup() {
-    return reach(this, 'state.event.source') === 'serverless-plugin-warmup';
-  }
-
   checkCancellationError(error) {
-    if (error instanceof CancelExecutionError) {
-      this.logger.error({ event: 'Handler Middleware Exception', err: error });
-      this.state.push({ error: new BaseException().getResponse(this.state.context, 0) });
-      return true;
+    const result = error instanceof CancelExecutionError;
+    if (result) {
+      this.state.push({ status: 444, response: { cancelled: true } });
     }
-    return false;
+    return result;
   }
 
   /**
