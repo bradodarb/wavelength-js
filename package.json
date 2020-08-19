@@ -48,13 +48,12 @@
     "install": "^0.12.2",
     "jest": "^23.x",
     "jest-ajv": "1.0.3",
-    "jest-cli": "@24.9.0",
+    "jest-cli": "^26.4.0",
     "jest-environment-jsdom": "^24.9.0",
     "jest-html-reporter": "^2.4.2",
     "jest-xml-matcher": "^1.1.1"
   },
   "dependencies": {
-    "@hapi/hoek": "^8.2.5",
     "aws-sdk": "^2.244.1",
     "axios": "^0.18.0",
     "bunyan": "^1.8.12",

@@ -1,9 +1,9 @@
 const { CancelExecutionError } = require('../../../errors');
-const { reach } = require('@hapi/hoek');
+const { get } = require('lodash');
 
 module.exports = (state) => {
   let result = null;
-  if (reach(state, 'event.source') === 'serverless-plugin-warmup') {
+  if (get(state, 'event.source') === 'serverless-plugin-warmup') {
     result = new CancelExecutionError();
 
     state.logger.info({
