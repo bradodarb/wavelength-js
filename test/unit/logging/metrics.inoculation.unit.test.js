@@ -1,6 +1,6 @@
 const bunyan = require('bunyan');
 const { StructLog, pii, Metrics } = require('../../../src');
-const LogUtils = require('../../../src/logging/logging-utils');
+const { LogUtils } = require('../../../src/logging/logging-utils');
 const Context = require('../../util/lambda-context-mock');
 
 const eventMock = {
@@ -20,13 +20,15 @@ const eventMock = {
 
 
 let events = [];
-const ogDebug = console.debug;
+const originalStdoutWrite = process.stdout.write.bind(process.stdout);
+function logSnoop(...args) {
+  events.push(...args);
+}
 
 describe('Testing StructLog Metrics', () => {
   beforeAll((done) => {
-    console.debug = function debug(...args) {
-      events.push(...args);
-      console.log(...args);
+    process.stdout.write = (chunk, encoding, callback) => {
+      logSnoop(chunk);
     };
     done();
   });
@@ -36,12 +38,12 @@ describe('Testing StructLog Metrics', () => {
     done();
   });
   afterAll((done) => {
-    console.debug = ogDebug;
+    process.stdout.write = originalStdoutWrite;
     done();
   });
 
   it('Adds timer to metrics output', async () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.inoculate('metrics', new Metrics.MetricsInoculator());
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
     logger.metrics.timer('testTimer').start();
@@ -66,7 +68,7 @@ describe('Testing StructLog Metrics', () => {
   });
 
   it('Adds counter to metrics output', async () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.inoculate('metrics', new Metrics.MetricsInoculator());
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
     const testCounter = logger.metrics.counter('testCounter');
@@ -92,7 +94,7 @@ describe('Testing StructLog Metrics', () => {
 
 
   it('Adds gauge to metrics output', async () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.inoculate('metrics', new Metrics.MetricsInoculator());
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
     logger.metrics.gauge('testGauge1').update(100);
@@ -113,7 +115,7 @@ describe('Testing StructLog Metrics', () => {
 
 
   it('Adds set to metrics output', async () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.inoculate('metrics', new Metrics.MetricsInoculator());
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
     const testSet = logger.metrics.set('testSet');
@@ -123,11 +125,11 @@ describe('Testing StructLog Metrics', () => {
 
     testSet.append(1);
 
-    expect(testSet.format()).toEqual([1,2,'three', 'IV']);
+    expect(testSet.format()).toEqual([1, 2, 'three', 'IV']);
 
     testSet.remove('three');
 
-    expect(testSet.format()).toEqual([1,2, 'IV']);
+    expect(testSet.format()).toEqual([1, 2, 'IV']);
 
     testSet.reset();
     expect(testSet.format()).toEqual([]);

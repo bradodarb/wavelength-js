@@ -1,7 +1,7 @@
 /** @module errors */
-const statusCodes = require('../../../utils/http-status-codes');
-const { BaseException } = require('../../../errors');
-const errorCodes = require('../../../errors/error-codes');
+const statusCodes = require('../../../../utils/http-status-codes');
+const { BaseException } = require('../../../../errors');
+const errorCodes = require('../../../../errors/error-codes');
 
 
 class BaseHttpException extends BaseException {

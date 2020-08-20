@@ -5,7 +5,7 @@ const util = require('util');
 const { EventEmitter } = require('events').EventEmitter;
 const _ = require('lodash');
 const bunyan = require('bunyan');
-const StructLog = require('.');
+const { StructLog } = require('.');
 const Metrics = require('./inoculators/metrics');
 const { getStandardResponse } = require('../utils/aws-object-utils');
 const pii = require('../utils/pii');
@@ -25,7 +25,7 @@ class LegacyLogger {
   constructor(name, event, context, filters = []) {
     this.event = event;
     this.context = context;
-    this.logger = new StructLog(name, context, filters);
+    this.logger = new StructLog(name);
     this.logger.info({
       event: 'TRACE',
       bindings: {

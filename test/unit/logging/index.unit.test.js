@@ -1,10 +1,12 @@
 const bunyan = require('bunyan');
 const { StructLog, pii } = require('../../../src');
-const LogUtils =  require('../../../src/logging/logging-utils');
+const {BufferedCloudWatchLogger} = require('../../../src/contrib/logging/aws/buffered-cloudwatch-logger');
+const { LogUtils } = require('../../../src/logging/logging-utils');
+const { BufferedLogStream } = require('../../../src/logging/buffered-stream');
 const Context = require('../../util/lambda-context-mock');
 
 const eventMock = {
-  interim_desc: {
+  details: {
     requestContext: {
       authorizer: {
         claims: {
@@ -100,13 +102,14 @@ const fullEventMock = {
 };
 
 let events = [];
-const ogDebug = console.debug;
-
+const originalStdoutWrite = process.stdout.write.bind(process.stdout);
+function logSnoop(...args) {
+  events.push(...args);
+}
 describe('Testing StructLog', () => {
   beforeAll((done) => {
-    console.debug = function debug(...args) {
-      events.push(...args);
-      console.log(...args);
+    process.stdout.write = (chunk, encoding, callback) => {
+      logSnoop(chunk);
     };
     done();
   });
@@ -116,12 +119,12 @@ describe('Testing StructLog', () => {
     done();
   });
   afterAll((done) => {
-    console.debug = ogDebug;
+    process.stdout.write = originalStdoutWrite;
     done();
   });
 
   it('does not emit events < warning until flush is called', () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
 
     expect(events.length).toBe(0);
@@ -129,7 +132,7 @@ describe('Testing StructLog', () => {
     expect(events.length).toBe(1);
   });
   it('immediately emits events > warning and also adds to buffer', () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.error({
       event: 'red alert', details: eventMock, bindings: { hello: 'world!' }, err: new Error('Test Error'),
     });
@@ -140,7 +143,7 @@ describe('Testing StructLog', () => {
   });
   it('emits events in the order received', () => {
     process.env.LOG_LEVEL = 'debug';
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.debug({ event: 1, details: eventMock, bindings: { hello: 'world!' } });
 
     logger.info({ event: 2, details: eventMock, bindings: { hello: 'world!' } });
@@ -170,7 +173,7 @@ describe('Testing StructLog', () => {
   });
 
   it('adds key/vals to subsequent logs after bind', () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
     logger.bind({ alert: 'RED' });
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
@@ -271,8 +274,9 @@ describe('Testing StructLog', () => {
   });
 
   it('scrubs global pii from objects', () => {
-    const logger = new StructLog(null, new Context(), pii.defaultFilters());
-    const event = Object.assign(eventMock,
+    const logger = new BufferedCloudWatchLogger('test logger', new BufferedLogStream(100, pii.defaultFilters()));
+    const event = Object.assign(
+      eventMock,
       {
         body: {
           user: 'a user',
@@ -282,7 +286,8 @@ describe('Testing StructLog', () => {
           password: '8675309',
           passWord: '8675309',
         },
-      });
+      },
+    );
     logger.info({ event: 'red', details: event, bindings: { hello: 'world!', email: 'nunya@darn.biz' } });
     expect(events.length).toBe(0);
     logger.flush();
@@ -291,20 +296,22 @@ describe('Testing StructLog', () => {
     const { items } = JSON.parse(events[0]);
 
     expect(items[0].email).toBe('*');
-    expect(items[0].interim_desc.body.user).toBe('*');
-    expect(items[0].interim_desc.body.username).toBe('*');
-    expect(items[0].interim_desc.body.userName).toBe('*');
-    expect(items[0].interim_desc.body.email).toBe('*');
-    expect(items[0].interim_desc.body.password).toBe('*');
-    expect(items[0].interim_desc.body.passWord).toBe('*');
+    expect(items[0].details.body.user).toBe('*');
+    expect(items[0].details.body.username).toBe('*');
+    expect(items[0].details.body.userName).toBe('*');
+    expect(items[0].details.body.email).toBe('*');
+    expect(items[0].details.body.password).toBe('*');
+    expect(items[0].details.body.passWord).toBe('*');
   });
 
   it('scrubs global pii from stringified objects', () => {
-    const logger = new StructLog(null, new Context(), pii.defaultFilters());
-    const event = Object.assign(eventMock,
+    const logger = new BufferedCloudWatchLogger('test logger', new BufferedLogStream(100, pii.defaultFilters()));
+    const event = Object.assign(
+      eventMock,
       {
         body: '{"user":"a user","username":"a user","userName":"a user","email":"nunya@darn.biz","password":"8675309","passWord":"8675309"}',
-      });
+      },
+    );
     logger.info({ event: 'red', details: event, bindings: { hello: 'world!', email: 'nunya@darn.biz' } });
     expect(events.length).toBe(0);
     logger.flush();
@@ -313,7 +320,7 @@ describe('Testing StructLog', () => {
     const { items } = JSON.parse(events[0]);
 
     expect(items[0].email).toBe('*');
-    const { body } = items[0].interim_desc;
+    const { body } = items[0].details;
     expect(body.user).toBe('*');
     expect(body.username).toBe('*');
     expect(body.userName).toBe('*');
@@ -323,7 +330,7 @@ describe('Testing StructLog', () => {
   });
 
   it('scrubs pii from event', () => {
-    const logger = new StructLog(null, new Context(), pii.defaultFilters());
+    const logger = new BufferedCloudWatchLogger('test logger', new BufferedLogStream(100, pii.defaultFilters()));
 
     logger.info({
       event: 'TRACE',
@@ -349,7 +356,8 @@ describe('Testing StructLog', () => {
         return pii.scrubWhitelist(record, 'lambda_event.requestContext.step1.step2.step3', ['keepMe', 'preserve']);
       },
     ];
-    const logger = new StructLog(null, new Context(), pii.defaultFilters(filters));
+    const logger = new BufferedCloudWatchLogger('test logger',
+      new BufferedLogStream(100, pii.defaultFilters(filters)));
 
     logger.info({
       event: 'TRACE',

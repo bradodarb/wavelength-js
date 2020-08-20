@@ -1,6 +1,6 @@
 
 const serializers = require('../../../src/logging/serializers');
-
+const { serializers: { details } } = require('../../../src/contrib/logging/aws/buffered-cloudwatch-logger');
 
 
 describe('Testing Serializers', () => {
@@ -38,7 +38,7 @@ describe('Testing Serializers', () => {
 
   it('checks that pii is removed interim_desc', () => {
     const logEvent = {
-      interim_desc: {
+      details: {
         requestContext: {
           authorizer: {
             claims: {
@@ -51,7 +51,7 @@ describe('Testing Serializers', () => {
         },
       },
     };
-    const result = serializers.interim_desc(logEvent.interim_desc);
+    const result = details(logEvent.details);
 
 
     expect(result.requestContext.authorizer.claims['persisted:']).toBe('*');
@@ -73,7 +73,7 @@ describe('Testing Serializers', () => {
         },
       },
     });
-    const result = serializers.interim_desc(logEvent);
+    const result = details(logEvent);
 
     expect(result.requestContext.authorizer.claims['persisted:']).toBe('*');
     expect(result.requestContext.authorizer.claims['cognito:username:']).toBe('*');
@@ -83,17 +83,15 @@ describe('Testing Serializers', () => {
 
   it('checks that pii removal passes through string', () => {
     const logEvent = 'All your logs are belong to us';
-    const result = serializers.interim_desc(logEvent);
+    const result = details(logEvent);
 
     expect(result).toBe(logEvent);
   });
 
   it('checks that pii removal passes through number', () => {
     const logEvent = 1234567890;
-    const result = serializers.interim_desc(logEvent);
+    const result = details(logEvent);
 
     expect(result).toBe(logEvent);
   });
-
-
 });

@@ -1,4 +1,4 @@
-const { CancelExecutionError } = require('../../../errors');
+const { CancelExecutionError } = require('../../../../errors');
 const { get } = require('lodash');
 
 module.exports = (state) => {

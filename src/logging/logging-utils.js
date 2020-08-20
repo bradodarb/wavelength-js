@@ -59,4 +59,4 @@ class LogUtils {
   }
 }
 
-module.exports = LogUtils;
+module.exports = { LogUtils };
