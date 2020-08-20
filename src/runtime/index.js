@@ -89,7 +89,7 @@ class Wavelength extends EventEmitter {
       return;
     }
     this.state.push({
-      error: getStandardError({ message: 'Unexpected Server Error', status: 500, reason: error.message }),
+      error: { message: error.message, error: error.toString() },
     });
   }
 
@@ -114,11 +114,9 @@ class Wavelength extends EventEmitter {
     let result;
     let err;
     if (this.state.error) {
-      err = this.state.error;
+      err = this.formatError(this.state);
     } else {
       result = this.formatResult(this.state);
-      const { status, response: body } = this.state;
-      result = getStandardResponse({ status, body });
     }
     this.onClose();
     if (this.callback) {
@@ -128,7 +126,7 @@ class Wavelength extends EventEmitter {
   }
 
   /**
-   * Trace function to log that a lambda has been executed
+   * Trace function to log that a function has been executed
    */
   onInvoke() {
     this.logger.info({
@@ -142,7 +140,7 @@ class Wavelength extends EventEmitter {
   }
 
   /**
-   * race function to log that lambda execution has completed
+   * trace function to log that function execution has completed
    * @param result {*} final result of the handler
    */
   onClose(result) {
