@@ -35,14 +35,14 @@ const reverseLevelMap = {
  * Stream-like object used to buffer log events for latent flushing
  */
 class BufferedLogStream extends EventEmitter {
-  constructor(limit = 100, filters, buffer = true) {
+  constructor(limit = 100, filters) {
     super();
     this.limit = limit;
     this.writable = true;
     this.records = [];
     this.filters = filters;
     this.additionalItems = [];
-    this.buffer = buffer;
+    this.buffer = limit > 0;
   }
 
 
@@ -64,10 +64,7 @@ class BufferedLogStream extends EventEmitter {
       return this;
     }
     if (reverseLevelMap[logRecord.level] > bunyan.WARN) {
-      /*
-       * Sending everything to console.debug to avoid Lambda runtime monkey-patching
-       *  https://forums.aws.amazon.com/thread.jspa?messageID=739180
-       */
+
       BufferedLogStream.dump(logRecord);
     }
     this.records.push(logRecord);
@@ -145,7 +142,7 @@ class BufferedLogStream extends EventEmitter {
     return {
       level: levelMap[record.level],
       event: BufferedLogStream.truncate(record.event, max),
-      interim_desc: BufferedLogStream.truncate(record.interim_desc, max),
+      details: BufferedLogStream.truncate(record.details, max),
       name: undefined,
     };
   }
@@ -188,14 +185,14 @@ class BufferedLogStream extends EventEmitter {
   }
 
   /**
-   * Write log event to console.debug
+   * Write log event to process.stdout
    * Sending everything to console.debug to avoid Lambda runtime monkey-patching
    *  https://forums.aws.amazon.com/thread.jspa?messageID=739180
    * @param record {*}
    */
   static dump(record) {
     try {
-      console.debug(BufferedLogStream.serialize(record));
+      process.stdout.write(BufferedLogStream.serialize(record));
     } catch (e) {
       // /Swallow errors ...
       // / Known Jest issue where the default reporter overrides console object

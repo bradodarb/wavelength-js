@@ -1,8 +1,8 @@
 
-const { Wavelength, errors, contrib: { middleware: { aws: { lambdaWarmupMiddleware } } } } = require('../../../src');
+const { Wavelength, contrib: { middleware: { aws: { lambdaWarmupMiddleware } } } } = require('../../../src');
 const Context = require('../../util/lambda-context-mock');
 const { createAPIGatewayEvent } = require('../../util/api-gateway-event-mock');
-const { errors: { awsAPIG: apiErrors } } = require('../../../src/contrib');
+const { errors: { aws: { apig: apiErrors } } } = require('../../../src/contrib');
 
 describe('Testing Runtime Engine', () => {
   beforeAll((done) => {

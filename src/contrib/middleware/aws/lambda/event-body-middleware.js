@@ -1,4 +1,4 @@
-const { errors } = require('../../../index');
+const { apig: errors } = require('../../../errors');
 
 module.exports = (state) => {
   let result = null;

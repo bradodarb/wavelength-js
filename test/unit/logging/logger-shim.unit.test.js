@@ -17,7 +17,10 @@ const eventMock = {
 };
 
 let events = [];
-const ogDebug = console.debug;
+const originalStdoutWrite = process.stdout.write.bind(process.stdout);
+function logSnoop(...args) {
+  events.push(...args);
+}
 
 function innerCallback(val, callback) {
   callback(val);
@@ -59,8 +62,8 @@ class TestCallbackHandler {
 }
 describe('Testing Log Shim', () => {
   beforeAll((done) => {
-    console.debug = function debug(...args) {
-      events.push(...args);
+    process.stdout.write = (chunk, encoding, callback) => {
+      logSnoop(chunk);
     };
     done();
   });
@@ -69,7 +72,7 @@ describe('Testing Log Shim', () => {
     done();
   });
   afterAll((done) => {
-    console.debug = ogDebug;
+    process.stdout.write = originalStdoutWrite;
     done();
   });
 
@@ -179,7 +182,8 @@ describe('Testing Log Shim', () => {
 
     const handler = bootstrapHandlerLogging(testHandler, 'Test Logger');
 
-    handler({ event: 'test event' }, new Context(),
+    handler(
+      { event: 'test event' }, new Context(),
       (err, val) => {
         expect(err).toBe(null);
         expect(val.event).toBe(expectation);
@@ -191,7 +195,8 @@ describe('Testing Log Shim', () => {
         expect(return_status.event).toBe(expectation);
         expect(metrics.counters.testCounter).toBe(100);
         done();
-      });
+      },
+    );
   });
 
   it('wraps callback style handler and returns error to log', (done) => {
@@ -206,7 +211,8 @@ describe('Testing Log Shim', () => {
 
     const handler = bootstrapHandlerLogging(testHandler, 'Test Logger');
 
-    handler({ event: 'test event' }, new Context(),
+    handler(
+      { event: 'test event' }, new Context(),
       (err, val) => {
         expect(err.badThing).toBe('someone set us up the bomb');
         expect(val.event).toBe(expectation);
@@ -216,7 +222,8 @@ describe('Testing Log Shim', () => {
         expect(items[3].return_result.badThing).toBe(errMessage);
         expect(return_status.badThing).toBe(errMessage);
         done();
-      });
+      },
+    );
   });
 
   it('wraps nested callback style handler', (done) => {
@@ -232,14 +239,16 @@ describe('Testing Log Shim', () => {
 
     const handler = bootstrapHandlerLogging(testHandler, 'Test Logger');
 
-    handler({ event: 'test event' }, new Context(),
+    handler(
+      { event: 'test event' }, new Context(),
       (err, val) => {
         expect(val.event).toBe(expectation);
         const { items } = JSON.parse(events[0]);
         expect(items.length).toBe(4);
         expect(items[3].return_result.event).toBe(expectation);
         done();
-      });
+      },
+    );
   });
 
   it('wraps callback style class level handler fails', async () => {

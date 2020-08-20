@@ -1,5 +1,5 @@
 const { errors } = require('../../../src');
-const { errors: { awsAPIG: apiErrors } } = require('../../../src/contrib');
+const { errors: { aws: { apig: apiErrors } } } = require('../../../src/contrib');
 
 const Context = require('../../util/lambda-context-mock');
 

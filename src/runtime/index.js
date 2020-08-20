@@ -6,7 +6,7 @@ const { getStandardResponse, getStandardError } = require('../utils/aws-object-u
 const pii = require('../utils/pii');
 const {
   Base4xxException, Base5xxException,
-} = require('../contrib/errors/aws-apig');
+} = require('../contrib/errors/aws/apig');
 const {
   CancelExecutionError, BaseException,
 } = require('../errors');

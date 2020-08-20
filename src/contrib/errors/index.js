@@ -10,11 +10,11 @@ const {
   Base424Exception,
   Base429Exception,
   BaseHttpException,
-} = require('./aws-apig/index');
+} = require('./aws/apig');
 
 
 module.exports = {
-  awsAPIG: {
+  apig: {
     Base4xxException,
     Base5xxException,
     Base401Exception,

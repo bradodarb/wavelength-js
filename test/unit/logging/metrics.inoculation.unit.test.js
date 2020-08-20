@@ -20,13 +20,15 @@ const eventMock = {
 
 
 let events = [];
-const ogDebug = console.debug;
+const originalStdoutWrite = process.stdout.write.bind(process.stdout);
+function logSnoop(...args) {
+  events.push(...args);
+}
 
 describe('Testing StructLog Metrics', () => {
   beforeAll((done) => {
-    console.debug = function debug(...args) {
-      events.push(...args);
-      console.log(...args);
+    process.stdout.write = (chunk, encoding, callback) => {
+      logSnoop(chunk);
     };
     done();
   });
@@ -36,7 +38,7 @@ describe('Testing StructLog Metrics', () => {
     done();
   });
   afterAll((done) => {
-    console.debug = ogDebug;
+    process.stdout.write = originalStdoutWrite;
     done();
   });
 
@@ -123,11 +125,11 @@ describe('Testing StructLog Metrics', () => {
 
     testSet.append(1);
 
-    expect(testSet.format()).toEqual([1,2,'three', 'IV']);
+    expect(testSet.format()).toEqual([1, 2, 'three', 'IV']);
 
     testSet.remove('three');
 
-    expect(testSet.format()).toEqual([1,2, 'IV']);
+    expect(testSet.format()).toEqual([1, 2, 'IV']);
 
     testSet.reset();
     expect(testSet.format()).toEqual([]);
