@@ -1,7 +1,7 @@
 const { Wavelength } = require('./runtime');
 const { Decay } = require('./runtime/middle-ware');
 const { Container } = require('./runtime/ioc');
-const StructLog = require('./logging');
+const { StructLog } = require('./logging');
 const Metrics = require('./logging/inoculators/metrics');
 const { patchConsole, bootstrap } = require('./logging/logger-shim');
 const errors = require('./errors');

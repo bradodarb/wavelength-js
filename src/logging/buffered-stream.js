@@ -225,4 +225,4 @@ class BufferedLogStream extends EventEmitter {
   }
 }
 
-module.exports = BufferedLogStream;
+module.exports = { BufferedLogStream };

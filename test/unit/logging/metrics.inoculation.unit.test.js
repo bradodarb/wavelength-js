@@ -1,6 +1,6 @@
 const bunyan = require('bunyan');
 const { StructLog, pii, Metrics } = require('../../../src');
-const LogUtils = require('../../../src/logging/logging-utils');
+const { LogUtils } = require('../../../src/logging/logging-utils');
 const Context = require('../../util/lambda-context-mock');
 
 const eventMock = {
@@ -43,7 +43,7 @@ describe('Testing StructLog Metrics', () => {
   });
 
   it('Adds timer to metrics output', async () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.inoculate('metrics', new Metrics.MetricsInoculator());
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
     logger.metrics.timer('testTimer').start();
@@ -68,7 +68,7 @@ describe('Testing StructLog Metrics', () => {
   });
 
   it('Adds counter to metrics output', async () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.inoculate('metrics', new Metrics.MetricsInoculator());
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
     const testCounter = logger.metrics.counter('testCounter');
@@ -94,7 +94,7 @@ describe('Testing StructLog Metrics', () => {
 
 
   it('Adds gauge to metrics output', async () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.inoculate('metrics', new Metrics.MetricsInoculator());
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
     logger.metrics.gauge('testGauge1').update(100);
@@ -115,7 +115,7 @@ describe('Testing StructLog Metrics', () => {
 
 
   it('Adds set to metrics output', async () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.inoculate('metrics', new Metrics.MetricsInoculator());
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
     const testSet = logger.metrics.set('testSet');

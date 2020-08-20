@@ -1,8 +1,8 @@
 /** @module slog */
 const bunyan = require('bunyan');
 const serializers = require('./serializers');
-const BufferedLogStream = require('./buffered-stream');
-const LogUtils = require('./logging-utils');
+const { BufferedLogStream } = require('./buffered-stream');
+const { LogUtils } = require('./logging-utils');
 
 /**
  * @class
@@ -12,13 +12,13 @@ class StructLog {
   /**
    * Ctor for Structured Logging class instance
    * @param name {string} Logger name used to override context.functionName
-   * @param context {object} incoming context object
-   * @param filters {[function]} log event filters
+   * @param stream {EventEmitter} incoming context object
    */
-  constructor(name, context, filters = []) {
-    this.name = name || context.functionName;
-    this.stream = new BufferedLogStream(100, filters);
-    this.logger = this.getStructuredLogger(context);
+  constructor(name='Application',
+  stream = new BufferedLogStream(100, []) ) {
+    this.name = name;
+    this.stream = stream;
+    this.logger = this.getStructuredLogger({});
     this.debug = this.getEmitter(bunyan.DEBUG);
     this.info = this.getEmitter(bunyan.INFO);
     this.warn = this.getEmitter(bunyan.WARN);
@@ -34,7 +34,7 @@ class StructLog {
    * @param context {object} incoming AWS lambda context object
    */
   set context(context) {
-    this.logger = this.getStructuredLogger(this.getLoggerOverrides(context));
+    this.logger = this.getStructuredLogger(this.getLoggerOverrides(context || {}));
   }
   /**
    * Helper function to build a log emitter at a given level
@@ -176,4 +176,4 @@ class StructLog {
 }
 
 
-module.exports = StructLog;
+module.exports = { StructLog };

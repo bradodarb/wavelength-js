@@ -157,7 +157,7 @@ class Wavelength {
   checkCancellationError(error) {
     const result = error instanceof CancelExecutionError;
     if (result) {
-      this.state.push({ response: result.getResponse() });
+      this.state.push({ response: error.getResponse() });
     }
     return result;
   }

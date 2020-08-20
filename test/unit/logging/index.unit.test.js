@@ -1,7 +1,8 @@
 const bunyan = require('bunyan');
 const { StructLog, pii } = require('../../../src');
-const {BufferedCloudWatchLogger} = require('../../../src/contrib/logging/aws/buffered-cloudwatch-logger')
-const LogUtils = require('../../../src/logging/logging-utils');
+const {BufferedCloudWatchLogger} = require('../../../src/contrib/logging/aws/buffered-cloudwatch-logger');
+const { LogUtils } = require('../../../src/logging/logging-utils');
+const { BufferedLogStream } = require('../../../src/logging/buffered-stream');
 const Context = require('../../util/lambda-context-mock');
 
 const eventMock = {
@@ -123,7 +124,7 @@ describe('Testing StructLog', () => {
   });
 
   it('does not emit events < warning until flush is called', () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
 
     expect(events.length).toBe(0);
@@ -131,7 +132,7 @@ describe('Testing StructLog', () => {
     expect(events.length).toBe(1);
   });
   it('immediately emits events > warning and also adds to buffer', () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.error({
       event: 'red alert', details: eventMock, bindings: { hello: 'world!' }, err: new Error('Test Error'),
     });
@@ -142,7 +143,7 @@ describe('Testing StructLog', () => {
   });
   it('emits events in the order received', () => {
     process.env.LOG_LEVEL = 'debug';
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.debug({ event: 1, details: eventMock, bindings: { hello: 'world!' } });
 
     logger.info({ event: 2, details: eventMock, bindings: { hello: 'world!' } });
@@ -172,7 +173,7 @@ describe('Testing StructLog', () => {
   });
 
   it('adds key/vals to subsequent logs after bind', () => {
-    const logger = new StructLog(null, new Context());
+    const logger = new StructLog('test logger');
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
     logger.bind({ alert: 'RED' });
     logger.info({ event: 'red', details: eventMock, bindings: { hello: 'world!' } });
@@ -273,7 +274,7 @@ describe('Testing StructLog', () => {
   });
 
   it('scrubs global pii from objects', () => {
-    const logger = new BufferedCloudWatchLogger(null, new Context(), pii.defaultFilters());
+    const logger = new BufferedCloudWatchLogger('test logger', new BufferedLogStream(100, pii.defaultFilters()));
     const event = Object.assign(
       eventMock,
       {
@@ -304,7 +305,7 @@ describe('Testing StructLog', () => {
   });
 
   it('scrubs global pii from stringified objects', () => {
-    const logger = new BufferedCloudWatchLogger(null, new Context(), pii.defaultFilters());
+    const logger = new BufferedCloudWatchLogger('test logger', new BufferedLogStream(100, pii.defaultFilters()));
     const event = Object.assign(
       eventMock,
       {
@@ -329,7 +330,7 @@ describe('Testing StructLog', () => {
   });
 
   it('scrubs pii from event', () => {
-    const logger = new StructLog(null, new Context(), pii.defaultFilters());
+    const logger = new BufferedCloudWatchLogger('test logger', new BufferedLogStream(100, pii.defaultFilters()));
 
     logger.info({
       event: 'TRACE',
@@ -355,7 +356,8 @@ describe('Testing StructLog', () => {
         return pii.scrubWhitelist(record, 'lambda_event.requestContext.step1.step2.step3', ['keepMe', 'preserve']);
       },
     ];
-    const logger = new StructLog(null, new Context(), pii.defaultFilters(filters));
+    const logger = new BufferedCloudWatchLogger('test logger',
+      new BufferedLogStream(100, pii.defaultFilters(filters)));
 
     logger.info({
       event: 'TRACE',

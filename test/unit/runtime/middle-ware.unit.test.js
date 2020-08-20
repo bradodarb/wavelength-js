@@ -1,5 +1,5 @@
 
-const StructLog = require('../../../src/logging');
+const { StructLog } = require('../../../src/logging');
 const { HandlerState } = require('../../../src/runtime/handler-state');
 const { Decay } = require('../../../src');
 const { Base422Exception } = require('../../../src/contrib/errors/aws/apig');
@@ -14,7 +14,8 @@ async function terminal(err, context) {
 }
 function getState(name = 'Test') {
   const contextMock = new Context();
-  const logger = new StructLog(name, contextMock);
+  const logger = new StructLog(name);
+  logger.context = contextMock;
   return new HandlerState(name, { req: true }, contextMock, logger);
 }
 describe('Testing Middleware Engine', () => {

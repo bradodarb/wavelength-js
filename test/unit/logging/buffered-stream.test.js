@@ -1,5 +1,5 @@
 
-const BufferedLogStream = require('../../../src/logging/buffered-stream');
+const { BufferedLogStream } = require('../../../src/logging/buffered-stream');
 const datas = require('../../testData/scottish-parliment-events.json');
 
 const eventMock = {

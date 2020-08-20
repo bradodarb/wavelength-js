@@ -1,4 +1,4 @@
-const StructLog = require('../../../logging');
+const { StructLog } = require('../../../logging');
 const pii = require('../../../utils/pii');
 
 const IGNORED_FIELDS = ['token_use', 'sub', 'locale', 'iat', 'email_verified', 'auth_time', 'aud'];

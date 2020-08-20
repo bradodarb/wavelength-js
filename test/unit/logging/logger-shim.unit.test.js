@@ -77,7 +77,7 @@ describe('Testing Log Shim', () => {
   });
 
   it('does not emit events < warning until flush is called', () => {
-    patchConsole(null, {}, new Context());
+    patchConsole('test logger', {}, new Context());
     console.info('red', eventMock, { hello: 'world!' });
 
     expect(events.length).toBe(0);
@@ -87,7 +87,7 @@ describe('Testing Log Shim', () => {
 
   it('emits events in the order received', () => {
     process.env.LOG_LEVEL = 'debug';
-    patchConsole(null, {}, new Context());
+    patchConsole('test logger', {}, new Context());
     console.log(1, eventMock, { hello: 'world!' });
     console.log(2, eventMock, { hello: 'world!' });
     console.log(3, eventMock, { hello: 'world!' });
@@ -111,7 +111,7 @@ describe('Testing Log Shim', () => {
   });
 
   it('adds key/vals to subsequent logs after bind', () => {
-    patchConsole(null, {}, new Context());
+    patchConsole('test logger', {}, new Context());
     console.info('red', eventMock, { hello: 'world!' });
     console.bind({ alert: 'RED' });
     console.info('red', eventMock, { hello: 'world!' });
