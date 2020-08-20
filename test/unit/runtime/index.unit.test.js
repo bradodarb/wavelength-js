@@ -1,14 +1,23 @@
 
-const { Wavelength, contrib: { middleware: { aws: { lambdaWarmupMiddleware } },
-  logging:{aws: { BufferedCloudWatchLogger }} }, Container, pii } = require('../../../src');
-const { BufferedLogStream }  = require('../../../src/logging/buffered-stream');
+const {
+  Wavelength, contrib: {
+    middleware: { aws: { lambdaWarmupMiddleware } },
+    logging: { aws: { BufferedCloudWatchLogger } },
+    output: { aws: { apig: { error: apiError, response: apiResponse } } },
+  }, Container, pii,
+} = require('../../../src');
+const { BufferedLogStream } = require('../../../src/logging/buffered-stream');
 const Context = require('../../util/lambda-context-mock');
 const { createAPIGatewayEvent } = require('../../util/api-gateway-event-mock');
 const { errors: { aws: { apig: apiErrors } } } = require('../../../src/contrib');
 
-const ioc= new Container();
-ioc.register('logger', ioc=> new BufferedCloudWatchLogger('Tester', ioc.logStream));
-ioc.register('logStream', ioc => new BufferedLogStream(100, pii.defaultFilters()));
+const container = new Container();
+container.register('logger', ioc => new BufferedCloudWatchLogger('Tester', ioc.logStream));
+container.register('logStream', ioc => new BufferedLogStream(100, ioc.logFilters));
+container.register('logFilters', () => pii.defaultFilters());
+container.register('outputFormatter', () => apiResponse);
+container.register('errorFormatter', () => apiError);
+
 describe('Testing Runtime Engine', () => {
   beforeAll((done) => {
     done();
@@ -23,7 +32,7 @@ describe('Testing Runtime Engine', () => {
     const event = createAPIGatewayEvent();
     const contextMock = new Context();
     event.source = 'serverless-plugin-warmup';
-    const app = new Wavelength('Test API', ioc.logger);
+    const app = new Wavelength('Test API', container.outputFormatter, container.errorFormatter, container.logger);
 
     app.middleWare.use([lambdaWarmupMiddleware,
       function sampleMiddleWare(state) {
@@ -44,7 +53,7 @@ describe('Testing Runtime Engine', () => {
     const event = createAPIGatewayEvent();
     const contextMock = new Context();
 
-    const app = new Wavelength('Test API', ioc.logger);
+    const app = new Wavelength('Test API', container.outputFormatter, container.errorFormatter, container.logger);
 
     app.middleWare.use([function sampleMiddleWare(state) {
       state.logger.info({ bindings: { state, ...{ ware: 1 } } });
@@ -64,7 +73,7 @@ describe('Testing Runtime Engine', () => {
     function callback(err, response) {
       expect(JSON.parse(response.body).status).toBe(200);
     }
-    const app = new Wavelength('Test API', ioc.logger);
+    const app = new Wavelength('Test API', container.outputFormatter, container.errorFormatter, container.logger);
 
 
     app.middleWare.use([function sampleMiddleWare(state) {
@@ -82,7 +91,7 @@ describe('Testing Runtime Engine', () => {
     const event = createAPIGatewayEvent();
     const contextMock = new Context();
 
-    const app = new Wavelength('Test API', ioc.logger);
+    const app = new Wavelength('Test API', container.outputFormatter, container.errorFormatter, container.logger);
 
     app.middleWare.use([
       function sampleMiddleWare(state) {
@@ -113,7 +122,7 @@ describe('Testing Runtime Engine', () => {
       expect(responseBody.message).toBe('Error: Someone set us up the bomb');
     }
 
-    const app = new Wavelength('Test API', ioc.logger);
+    const app = new Wavelength('Test API', container.outputFormatter, container.errorFormatter, container.logger);
 
     app.middleWare.use([
       function sampleMiddleWare(state) {
@@ -128,7 +137,7 @@ describe('Testing Runtime Engine', () => {
     await app.handler(async (state) => {
       state.logger.info({ event: 'App handler' });
       return { status: state.requestResult };
-    })(event, contextMock,callback);
+    })(event, contextMock, callback);
   });
 
 
@@ -136,7 +145,7 @@ describe('Testing Runtime Engine', () => {
     const event = createAPIGatewayEvent();
     const contextMock = new Context();
 
-    const app = new Wavelength('Test API', ioc.logger);
+    const app = new Wavelength('Test API', container.outputFormatter, container.errorFormatter, container.logger);
 
     app.middleWare.use([
       function sampleMiddleWare(state) {
@@ -163,7 +172,7 @@ describe('Testing Runtime Engine', () => {
       expect(responseBody.message).toBe('Error: Someone set us up the bomb');
     }
 
-    const app = new Wavelength('Test API', ioc.logger);
+    const app = new Wavelength('Test API', container.outputFormatter, container.errorFormatter, container.logger);
 
     app.middleWare.use([
       function sampleMiddleWare(state) {
@@ -181,7 +190,7 @@ describe('Testing Runtime Engine', () => {
     const event = createAPIGatewayEvent();
     const contextMock = new Context();
 
-    const app = new Wavelength('Test API', ioc.logger);
+    const app = new Wavelength('Test API', container.outputFormatter, container.errorFormatter, container.logger);
 
     app.middleWare.use([
       function sampleMiddleWare(state) {
@@ -202,7 +211,7 @@ describe('Testing Runtime Engine', () => {
     const event = createAPIGatewayEvent({ body: 1234 });
     const contextMock = new Context();
 
-    const app = new Wavelength('Test API', ioc.logger);
+    const app = new Wavelength('Test API', container.outputFormatter, container.errorFormatter, container.logger);
 
     app.middleWare.use([
       function sampleMiddleWare(state) {

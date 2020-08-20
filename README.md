@@ -6,6 +6,8 @@ Middleware, global response handling, Logging, Error Handling etc
 `yarn add wavelength-js`
 
 
+# Version 2 has added and updated many, many features and this readme will reflect them soon! 
+
 
 ## Application
 
@@ -13,12 +15,17 @@ Middleware, global response handling, Logging, Error Handling etc
 Inside your function handler, create a Wavelength instance
 
 ```js
-module.exports.add = async (event, context) => {
     const app = new Wavelength({ name: 'MyRestful API', event, context });
     
     ...
-    Next step: add middleware
+    Next step: add middleware...
     ...
+
+
+
+    module.exports.add = app.handler(async (state)=>{
+       // doowutchyalike    
+    });
 }
 
 ```
@@ -27,38 +34,20 @@ Once you've created a lightweight application runner, add some middleware using 
 
 
 ```js
-
-module.exports.add = async (event, context) => {
     const app = new Wavelength({ name: 'MyRestful API', event, context });
     
     app.middleWare.use([accessToken, checkUserRole, validateBody]);
-    
-    ...
-    Next step: run handler
-    ...
+
+
+
+    module.exports.add = app.handler(async (state)=>{
+       // doowutchyalike    
+    });
 }
 
 ```
 
 
-Now we can add our function that determines the final response.
-
-The return from this function will be transformed by the Wavelength app into a common format that is suitable for any Lambda event response, including the AWS API Gateway.
-
-```js
-
-module.exports.add = async (event, context) => {
-    const app = new Wavelength({ name: 'MyRestful API', event, context });
-    
-    app.middleWare.use([accessToken, checkUserRole, validateBody]);
-    
-    return app.run(async (state) => {
-      
-      return { success: true };
-    }
-}
-
-```
 
 ## Legacy Logging
 For projects in transition to take advantage of the library's execution pipeline pattern, we've introduced

@@ -14,19 +14,13 @@ class BaseHttpException extends BaseException {
   getResponse(context) {
     return {
       statusCode: this.status,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': true,
+      message: String(this),
+      error: {
+        path: context.invokedFunctionArn,
+        reason: this.reason,
+        requestId: context.awsRequestId,
+        code: this.code,
       },
-      body: JSON.stringify({
-        message: String(this),
-        error: {
-          path: context.invokedFunctionArn,
-          reason: this.reason,
-          requestId: context.awsRequestId,
-          code: this.code,
-        },
-      }),
     };
   }
 }

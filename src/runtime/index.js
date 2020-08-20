@@ -1,11 +1,12 @@
 /** @module wavelength */
+const { EventEmitter } = require('events').EventEmitter;
 const { Decay } = require('./middle-ware');
 const { getStandardResponse, getStandardError } = require('../utils/aws-object-utils');
 const {
   Base4xxException, Base5xxException,
 } = require('../contrib/errors/aws/apig');
 const {
-  CancelExecutionError, BaseException,
+  CancelExecutionError,
 } = require('../errors');
 const { HandlerState } = require('./handler-state');
 
@@ -13,15 +14,20 @@ const { HandlerState } = require('./handler-state');
  * @class
  * Wraps a lambda function in a similar way as express or koa creates an app
  */
-class Wavelength {
+class Wavelength extends EventEmitter {
   /**
-   * Ctor for a Wavelength instance
+   *    * Ctor for a Wavelength instance
    * @param name {string} name of the app
+   * @param outputFormatter{function} used for execution result formatting
+   * @param errorFormatter {function} used for unhandled error formatting
    * @param logger {object} incoming logger instance
    */
-  constructor(name, logger = console) {
+  constructor(name, outputFormatter, errorFormatter, logger = console) {
+    super();
     this.name = name;
     this.logger = logger;
+    this.formatResult = outputFormatter;
+    this.formatError = errorFormatter;
     this.middleWare = new Decay(this.complete.bind(this));
   }
 
@@ -53,13 +59,17 @@ class Wavelength {
       state.push({ response: await handler(this.state) });
     });
     try {
+      this.emit('enter', this.state);
       this.onInvoke();
       await this.middleWare.invoke(this.state);
+      this.emit('success', this.state);
     } catch (e) {
       this.handleError(e);
+      this.emit('failure', this.state);
     }
     const result = this.closeLambda();
     this.logger.flush();
+    this.emit('exit', this.state);
     return result;
   }
 
@@ -79,7 +89,7 @@ class Wavelength {
       return;
     }
     this.state.push({
-      error: getStandardError({ message: 'Unexpected Server Error', status: 500, reason: error.message }),
+      error: { message: error.message, error: error.toString() },
     });
   }
 
@@ -104,10 +114,9 @@ class Wavelength {
     let result;
     let err;
     if (this.state.error) {
-      err = this.state.error;
+      err = this.formatError(this.state);
     } else {
-      const { status, response: body } = this.state;
-      result = getStandardResponse({ status, body });
+      result = this.formatResult(this.state);
     }
     this.onClose();
     if (this.callback) {
@@ -117,7 +126,7 @@ class Wavelength {
   }
 
   /**
-   * Trace function to log that a lambda has been executed
+   * Trace function to log that a function has been executed
    */
   onInvoke() {
     this.logger.info({
@@ -131,7 +140,7 @@ class Wavelength {
   }
 
   /**
-   * race function to log that lambda execution has completed
+   * trace function to log that function execution has completed
    * @param result {*} final result of the handler
    */
   onClose(result) {
