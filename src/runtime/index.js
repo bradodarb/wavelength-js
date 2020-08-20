@@ -1,9 +1,6 @@
 /** @module wavelength */
-const StructLog = require('../logging');
-const Metrics = require('../logging/inoculators/metrics');
 const { Decay } = require('./middle-ware');
 const { getStandardResponse, getStandardError } = require('../utils/aws-object-utils');
-const pii = require('../utils/pii');
 const {
   Base4xxException, Base5xxException,
 } = require('../contrib/errors/aws/apig');
@@ -20,21 +17,12 @@ class Wavelength {
   /**
    * Ctor for a Wavelength instance
    * @param name {string} name of the app
-   * @param event {object} incoming AWS lambda event object
-   * @param context {object} incoming AWS lambda context object
-   * @param filters {[function]} log event filters
-   * @param callback {function} incoming AWS lambda callback (for legacy support ONLY)
+   * @param logger {object} incoming logger instance
    */
-  constructor({
-    name, event, context, callback = undefined, filters = [],
-  } = {}) {
+  constructor(name, logger = console) {
     this.name = name;
-    this.callback = callback;
-    this.logger = new StructLog(name, context, pii.defaultFilters(filters));
+    this.logger = logger;
     this.middleWare = new Decay(this.complete.bind(this));
-    this.state = new HandlerState(name, event, context, this.logger);
-
-    this.logger.inoculate('metrics', new Metrics.MetricsInoculator());
   }
 
   /**
@@ -151,12 +139,12 @@ class Wavelength {
       event: 'TRACE',
       bindings: {
         state: 'Completed',
-        return_result: result,
+        returnValue: result,
       },
     });
     if (result) {
       this.logger.append({
-        return_status: result,
+        returnValue: result,
       });
     }
   }
@@ -169,7 +157,7 @@ class Wavelength {
   checkCancellationError(error) {
     const result = error instanceof CancelExecutionError;
     if (result) {
-      this.state.push({ status: 444, response: { cancelled: true } });
+      this.state.push({ response: result.getResponse() });
     }
     return result;
   }

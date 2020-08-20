@@ -3,7 +3,11 @@
  * Specific error type to signal execution should immediately stop
  */
 class CancelExecutionError extends Error {
-
+  getResponse() {
+    return {
+      cancelled: true,
+    };
+  }
 }
 
 /**

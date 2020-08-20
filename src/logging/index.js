@@ -12,7 +12,7 @@ class StructLog {
   /**
    * Ctor for Structured Logging class instance
    * @param name {string} Logger name used to override context.functionName
-   * @param context {object} incoming AWS lambda context object
+   * @param context {object} incoming context object
    * @param filters {[function]} log event filters
    */
   constructor(name, context, filters = []) {
