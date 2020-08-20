@@ -1,4 +1,5 @@
 /** @module slog */
+const _ = require('lodash');
 const bunyan = require('bunyan');
 const serializers = require('./serializers');
 const { BufferedLogStream } = require('./buffered-stream');
@@ -13,9 +14,13 @@ class StructLog {
    * Ctor for Structured Logging class instance
    * @param name {string} Logger name used to override context.functionName
    * @param stream {EventEmitter} incoming context object
+   * @param options {object}
    */
-  constructor(name='Application',
-  stream = new BufferedLogStream(100, []) ) {
+  constructor(
+    name = 'Application',
+    stream = new BufferedLogStream(100, []),
+    options = {},
+  ) {
     this.name = name;
     this.stream = stream;
     this.logger = this.getStructuredLogger({});
@@ -26,6 +31,7 @@ class StructLog {
     this.critical = this.getEmitter(bunyan.FATAL);
     this.maxMessageLength = LogUtils.getMaxLogLength();
     this.inoculations = [];
+    this.options = options;
   }
 
   // TODO Remove this after handler is the default runtime interface
@@ -39,14 +45,17 @@ class StructLog {
   /**
    * Helper function to build a log emitter at a given level
    * @param level
-   * @returns {function(): log}
+   * @returns {function():  {StructLog}
    */
   getEmitter(level = bunyan.DEBUG) {
     const self = this;
     const levelName = bunyan.nameFromLevel[level];
-    return function log({
-      event = null, details, err, limitOutput = true, bindings = {},
-    } = {}) {
+    return function emit() {
+      /* eslint-disable prefer-rest-params */
+      const entry = StructLog.parseLogArgs(Array.from(arguments));
+      const {
+        event, err, details, limitOutput, bindings,
+      } = entry;
       const record = self.buildLogRecord({
         err, details, limitOutput, bindings,
       });
@@ -129,6 +138,39 @@ class StructLog {
     });
   }
 
+
+  /**
+   *  Converts arguments array to a structured log entry
+   * @param args {*}
+   * @returns {object} An object suitable for creating a structured log event
+   */
+  static parseLogArgs(args) {
+    const result = {};
+    args.forEach((arg) => {
+      if (_.isNumber(arg) || _.isString(arg)) {
+        if (result.event) {
+          result.details = arg;
+        } else {
+          result.event = arg;
+        }
+      }
+
+      if (arg === true || arg === false) {
+        result.limitOutput = arg;
+      }
+
+      if (_.isObject(arg)) {
+        if (arg instanceof Error) {
+          result.err = arg;
+        } else if (result.details) {
+          result.bindings = arg;
+        } else {
+          result.details = arg;
+        }
+      }
+    });
+    return result;
+  }
 
   /**
      * Build object for logger payload

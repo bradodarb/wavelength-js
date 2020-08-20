@@ -65,7 +65,7 @@ describe('Testing Buffered Stream and friends', () => {
     stream.write({
       maxLength: 200,
       event: 'test_event',
-      interim_desc: 'Making sure buffer doesn\'t runneth over',
+      details: 'Making sure buffer doesn\'t runneth over',
       response: buffer,
     });
     stream.drain();

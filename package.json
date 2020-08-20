@@ -1,6 +1,6 @@
 {
   "name": "wavelength-js",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Serverless micro-framework and support utilities",
   "main": "src/index.js",
   "directories": {

@@ -1,6 +1,6 @@
 const bunyan = require('bunyan');
 const { StructLog, pii } = require('../../../src');
-const {BufferedCloudWatchLogger} = require('../../../src/contrib/logging/aws/buffered-cloudwatch-logger');
+const { BufferedCloudWatchLogger } = require('../../../src/contrib/logging/aws/buffered-cloudwatch-logger');
 const { LogUtils } = require('../../../src/logging/logging-utils');
 const { BufferedLogStream } = require('../../../src/logging/buffered-stream');
 const Context = require('../../util/lambda-context-mock');
@@ -144,19 +144,15 @@ describe('Testing StructLog', () => {
   it('emits events in the order received', () => {
     process.env.LOG_LEVEL = 'debug';
     const logger = new StructLog('test logger');
-    logger.debug({ event: 1, details: eventMock, bindings: { hello: 'world!' } });
+    logger.debug(1, eventMock, { hello: 'world!' });
 
-    logger.info({ event: 2, details: eventMock, bindings: { hello: 'world!' } });
+    logger.info(2, eventMock, { hello: 'world!' });
 
-    logger.warn({ event: 3, details: eventMock, bindings: { hello: 'world!' } });
+    logger.warn(3, eventMock, { hello: 'world!' });
 
-    logger.error({
-      event: 4, details: eventMock, bindings: { hello: 'world!' }, limitOutput: false,
-    });
+    logger.error(4, eventMock, { hello: 'world!' });
 
-    logger.critical({
-      event: 5, details: eventMock, bindings: { hello: 'world!' }, err: new Error('Test Error'),
-    });
+    logger.critical(5, eventMock, { hello: 'world!' }, new Error('Test Error'));
 
     expect(events.length).toBe(2);
     logger.flush();
@@ -288,7 +284,7 @@ describe('Testing StructLog', () => {
         },
       },
     );
-    logger.info({ event: 'red', details: event, bindings: { hello: 'world!', email: 'nunya@darn.biz' } });
+    logger.info('red', event, { hello: 'world!', email: 'nunya@darn.biz' });
     expect(events.length).toBe(0);
     logger.flush();
     expect(events.length).toBe(1);
@@ -312,7 +308,7 @@ describe('Testing StructLog', () => {
         body: '{"user":"a user","username":"a user","userName":"a user","email":"nunya@darn.biz","password":"8675309","passWord":"8675309"}',
       },
     );
-    logger.info({ event: 'red', details: event, bindings: { hello: 'world!', email: 'nunya@darn.biz' } });
+    logger.info('red', event, { hello: 'world!', email: 'nunya@darn.biz' });
     expect(events.length).toBe(0);
     logger.flush();
     expect(events.length).toBe(1);
@@ -327,60 +323,5 @@ describe('Testing StructLog', () => {
     expect(body.email).toBe('*');
     expect(body.password).toBe('*');
     expect(body.passWord).toBe('*');
-  });
-
-  it('scrubs pii from event', () => {
-    const logger = new BufferedCloudWatchLogger('test logger', new BufferedLogStream(100, pii.defaultFilters()));
-
-    logger.info({
-      event: 'TRACE',
-      bindings: {
-        lambda_event: fullEventMock,
-        state: 'Invoked',
-        context: new Context(),
-      },
-    });
-    expect(events.length).toBe(0);
-    logger.flush();
-    expect(events.length).toBe(1);
-
-    const { items } = JSON.parse(events[0]);
-    expect(items[0].lambda_event.requestContext.authorizer.claims.sub).toBe('96cb3dae-d30c-47a9-b98e-2bbedf578cbd');
-    expect(items[0].lambda_event.requestContext.authorizer.claims.username).toBe('*');
-    expect(items[0].lambda_event.requestContext.authorizer.claims.email).toBe('*');
-  });
-
-  it('scrubs pii from event and additional info with custom filter', () => {
-    const filters = [
-      function testFilter(record) {
-        return pii.scrubWhitelist(record, 'lambda_event.requestContext.step1.step2.step3', ['keepMe', 'preserve']);
-      },
-    ];
-    const logger = new BufferedCloudWatchLogger('test logger',
-      new BufferedLogStream(100, pii.defaultFilters(filters)));
-
-    logger.info({
-      event: 'TRACE',
-      bindings: {
-        lambda_event: fullEventMock,
-        state: 'Invoked',
-        context: new Context(),
-      },
-    });
-    expect(events.length).toBe(0);
-    logger.flush();
-    expect(events.length).toBe(1);
-
-    const { items } = JSON.parse(events[0]);
-    const record = items[0];
-    expect(record.lambda_event.requestContext.authorizer.claims.sub).toBe('96cb3dae-d30c-47a9-b98e-2bbedf578cbd');
-    expect(record.lambda_event.requestContext.authorizer.claims.username).toBe('*');
-    expect(record.lambda_event.requestContext.authorizer.claims.email).toBe('*');
-
-    expect(record.lambda_event.requestContext.step1.step2.step3.keepMe).toBe('sample value');
-    expect(record.lambda_event.requestContext.step1.step2.step3.preserve).toBe('huckleberry');
-    expect(record.lambda_event.requestContext.step1.step2.step3.prop202).toBe('*');
-    expect(record.lambda_event.requestContext.step1.step2.step3.rules).toEqual(['*', '*', '*']);
-    expect(record.lambda_event.requestContext.step1.step2.step3.nested).toEqual({ prop203: '*' });
   });
 });
