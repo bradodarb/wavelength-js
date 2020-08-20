@@ -26,7 +26,7 @@ describe('Testing Runtime Engine', () => {
         Object.assign(state, { requestResult: 200 });
       }]);
 
-    const result = await app.run(async (state) => {
+    const result = await app.handler(async (state) => {
       state.logger.info({ event: 'App handler' });
       return { status: state.requestResult };
     });
