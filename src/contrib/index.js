@@ -3,6 +3,9 @@ const lambdaWarmupMiddleware = require('./middleware/aws/lambda/warmup-detection
 const { apig } = require('./errors');
 const { BufferedCloudWatchLogger } = require('./logging/aws/buffered-cloudwatch-logger');
 const { respond: apigReponse, error: apigError } = require('./response/aws/apig');
+const { AWSAPIClient } = require('./test-utils/aws/lambda/integration/utils/aws-apig-runner');
+const { Invoker } = require('./test-utils/aws/lambda/integration/utils/invoker');
+const contextMock = require('./test-utils/aws/lambda/integration/utils/context');
 
 module.exports = {
   logging: {
@@ -27,6 +30,20 @@ module.exports = {
         response: apigReponse,
         error: apigError,
       },
+    },
+  },
+  test: {
+    aws: {
+      lambda: {
+        integration: {
+
+        },
+      },
+    },
+    utils: {
+      AWSAPIClient,
+      contextMock,
+      Invoker,
     },
   },
 };

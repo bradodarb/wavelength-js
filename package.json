@@ -1,6 +1,6 @@
 {
   "name": "wavelength-js",
-  "version": "2.1.0",
+  "version": "2.2.3",
   "description": "Serverless micro-framework and support utilities",
   "main": "src/index.js",
   "directories": {
@@ -54,7 +54,10 @@
     "jest-xml-matcher": "^1.1.1"
   },
   "dependencies": {
+    "aws-sdk": "^2.738.0",
+    "axios": "^0.19.2",
     "bunyan": "^1.8.12",
+    "dotenv": "^8.2.0",
     "fast-safe-stringify": "^2.0.6",
     "lodash": "^4.17.10",
     "mem": "4.0.0",
