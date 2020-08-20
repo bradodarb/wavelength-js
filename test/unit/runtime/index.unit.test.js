@@ -1,14 +1,19 @@
 
-const { Wavelength, contrib: { middleware: { aws: { lambdaWarmupMiddleware } },
-  logging:{aws: { BufferedCloudWatchLogger }} }, Container, pii } = require('../../../src');
-const { BufferedLogStream }  = require('../../../src/logging/buffered-stream');
+const {
+  Wavelength, contrib: {
+    middleware: { aws: { lambdaWarmupMiddleware } },
+    logging: { aws: { BufferedCloudWatchLogger } },
+  }, Container, pii,
+} = require('../../../src');
+const { BufferedLogStream } = require('../../../src/logging/buffered-stream');
 const Context = require('../../util/lambda-context-mock');
 const { createAPIGatewayEvent } = require('../../util/api-gateway-event-mock');
 const { errors: { aws: { apig: apiErrors } } } = require('../../../src/contrib');
 
-const ioc= new Container();
-ioc.register('logger', ioc=> new BufferedCloudWatchLogger('Tester', ioc.logStream));
-ioc.register('logStream', ioc => new BufferedLogStream(100, pii.defaultFilters()));
+const ioc = new Container();
+ioc.register('logger', ioc => new BufferedCloudWatchLogger('Tester', ioc.logStream));
+ioc.register('logStream', ioc => new BufferedLogStream(100, ioc.logFilters));
+ioc.register('logFilters', ioc => pii.defaultFilters());
 describe('Testing Runtime Engine', () => {
   beforeAll((done) => {
     done();
@@ -128,7 +133,7 @@ describe('Testing Runtime Engine', () => {
     await app.handler(async (state) => {
       state.logger.info({ event: 'App handler' });
       return { status: state.requestResult };
-    })(event, contextMock,callback);
+    })(event, contextMock, callback);
   });
 
 

@@ -16,7 +16,12 @@ class Container {
 
     return this;
   }
+  roster(resolvers) {
+    resolvers.keys().forEach((key) => {
+      this.register(key, resolvers[key]);
+    });
+    return this;
+  }
 }
-
 
 module.exports = { Container };
