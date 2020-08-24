@@ -213,7 +213,7 @@ class Base5xxException extends BaseHttpException {
   }
 }
 
-module.exports = {
+export {
   errorCodes,
   BaseHttpException,
   Base4xxException,

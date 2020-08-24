@@ -110,7 +110,7 @@ class MetricsInoculator {
   }
 }
 
-module.exports = {
+export {
   MetricsInoculator,
   CounterMetric,
   GaugeMetric,

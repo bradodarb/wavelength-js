@@ -5,7 +5,7 @@
  * Synchronous middleware executor
  * executes all registered middleware int the order they were added
  */
-class Decay {
+export default class Decay {
   /**
    * Ctor for middleware execution class
    * @param terminalFunction {function} Final function to execute after
@@ -66,4 +66,3 @@ class Decay {
     this.complete(null, context);
   }
 }
-module.exports = { Decay };

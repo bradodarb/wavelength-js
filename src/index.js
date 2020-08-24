@@ -1,16 +1,18 @@
-const { Wavelength } = require('./runtime');
-const { Decay } = require('./runtime/middle-ware');
-const { Container } = require('./runtime/ioc');
-const { StructLog } = require('./logging');
-const Metrics = require('./logging/inoculators/metrics');
-const { patchConsole } = require('./logging/logger-shim');
-const errors = require('./errors');
-const awsUtils = require('./utils/aws-object-utils');
-const { Retry } = require('./utils/retrying');
-const pii = require('./utils/pii');
-const contrib = require('./contrib');
+import Wavelength from './runtime';
+import HandlerState from './runtime/handler-state';
+import Decay from './runtime/middle-ware';
+import Container from './runtime/ioc';
+import StructLog from './logging';
 
-module.exports = {
+import * as Metrics from './logging/inoculators/metrics';
+import patchConsole from './logging/logger-shim';
+import * as errors from './errors';
+import * as awsUtils from './utils/aws-object-utils';
+import { Retry } from './utils/retrying';
+import * as pii from './utils/pii';
+import * as contrib from './contrib';
+
+export {
   awsUtils,
   patchConsole,
   errors,
@@ -18,6 +20,7 @@ module.exports = {
   StructLog,
   Metrics,
   Wavelength,
+  HandlerState,
   Container,
   Retry,
   pii,

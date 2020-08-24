@@ -1,4 +1,5 @@
-const { StructLog } = require('../../../logging');
+import StructLog from '../../../logging';
+
 const pii = require('../../../utils/pii');
 
 const IGNORED_FIELDS = ['token_use', 'sub', 'locale', 'iat', 'email_verified', 'auth_time', 'aud'];
@@ -16,6 +17,7 @@ const details = (record) => {
 
   return result;
 };
+
 class BufferedCloudWatchLogger extends StructLog {
   getLoggerOverrides(options = {}) {
     return {
@@ -30,6 +32,6 @@ class BufferedCloudWatchLogger extends StructLog {
     };
   }
 }
+const serializers = { details };
 
-
-module.exports = { BufferedCloudWatchLogger, serializers: { details } };
+export { BufferedCloudWatchLogger, serializers };

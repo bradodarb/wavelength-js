@@ -1,7 +1,5 @@
 /** @module aws-object-utils */
 
-const _ = require('lodash');
-
 /**
  * Retrieves the stage based on a few possible input(s):
  * 1) if stage declared in the event

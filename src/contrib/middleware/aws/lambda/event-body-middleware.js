@@ -1,6 +1,6 @@
-const { apig: errors } = require('../../../errors');
+import { Base422Exception } from '../../../errors/aws/apig';
 
-module.exports = (state) => {
+export default (state) => {
   let result = null;
   try {
     state.logger.info({ event: 'Middleware executing', details: 'Body Parsing Middleware' });
@@ -22,7 +22,7 @@ module.exports = (state) => {
     });
   } catch (err) {
     state.logger.error({ event: 'Error Parsing Body', err });
-    result = new errors.Base422Exception(
+    result = new Base422Exception(
       'Invalid Event Body',
       'Unable to parse body from event', '0000',
     );

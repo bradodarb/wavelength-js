@@ -1,4 +1,4 @@
-module.exports = function (options, cb) {
+export default function Context(options, cb) {
   return {
     succeed(result) {
       if (result === undefined) {
@@ -38,4 +38,4 @@ module.exports = function (options, cb) {
     clientContext: options.clientContext || {},
     timeInMillis: options.timeInMillis || 3000,
   };
-};
+}

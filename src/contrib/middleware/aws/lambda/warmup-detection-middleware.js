@@ -1,18 +1,14 @@
-const { CancelExecutionError } = require('../../../../errors');
-const { get } = require('lodash');
+import { get } from 'lodash';
+import { CancelExecutionError } from '../../../../errors';
 
-module.exports = (state) => {
+export default (state) => {
   let result = null;
   if (get(state, 'event.source') === 'serverless-plugin-warmup') {
     result = new CancelExecutionError();
-
-    state.logger.info({
-      event: 'TRACE',
-      details:
-          'serverless plugin warm-up invocation, skipping processing',
-      limitOutput: false,
-      bindings: { state: 'Skip' },
-    });
+    state.logger.info(
+      'TRACE', 'serverless plugin warm-up invocation, skipping processing',
+      { limitOutput: false, state: 'Skip' },
+    );
   }
   return result;
 };

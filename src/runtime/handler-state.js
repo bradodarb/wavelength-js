@@ -4,7 +4,7 @@ const _ = require('lodash');
  * @class
  * State repository for lambda execution
  */
-class HandlerState {
+export default class HandlerState {
   constructor(name, event, context, logger) {
     this.name = name;
     this.event = event;
@@ -44,5 +44,3 @@ class HandlerState {
     return result;
   }
 }
-
-module.exports = { HandlerState };

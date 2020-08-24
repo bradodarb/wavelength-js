@@ -1,8 +1,9 @@
 
-const { StructLog } = require('../../../src/logging');
-const { HandlerState } = require('../../../src/runtime/handler-state');
-const { Decay } = require('../../../src');
-const { Base422Exception } = require('../../../src/contrib/errors/aws/apig');
+import StructLog from "../../../src/logging";
+import HandlerState from "../../../src/runtime/handler-state";
+import Decay from "../../../src/runtime/middle-ware";
+import {Base422Exception} from '../../../src/contrib/errors/aws/apig';
+
 const Context = require('../../util/lambda-context-mock');
 
 async function terminal(err, context) {

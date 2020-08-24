@@ -1,49 +1,57 @@
-const apigBodyMiddleware = require('./middleware/aws/lambda/event-body-middleware');
-const lambdaWarmupMiddleware = require('./middleware/aws/lambda/warmup-detection-middleware');
-const { apig } = require('./errors');
-const { BufferedCloudWatchLogger } = require('./logging/aws/buffered-cloudwatch-logger');
-const { respond: apigReponse, error: apigError } = require('./response/aws/apig');
-const { AWSAPIClient } = require('./test-utils/aws/lambda/integration/utils/aws-apig-runner');
-const { Invoker } = require('./test-utils/aws/lambda/integration/utils/invoker');
-const contextMock = require('./test-utils/aws/lambda/integration/utils/context');
+import apigBodyMiddleware from './middleware/aws/lambda/event-body-middleware';
+import lambdaWarmupMiddleware from './middleware/aws/lambda/warmup-detection-middleware';
+import { apig } from './errors';
+import { BufferedCloudWatchLogger, serializers } from './logging/aws/buffered-cloudwatch-logger';
+import * as apigResponse from './response/aws/apig';
+import { AWSAPIClient } from './test-utils/aws/lambda/integration/utils/aws-apig-runner';
+import { Invoker } from './test-utils/aws/lambda/integration/utils/invoker';
+import Context from './test-utils/aws/lambda/integration/utils/context';
 
-module.exports = {
-  logging: {
-    aws: {
-      BufferedCloudWatchLogger,
+
+const logging = {
+  aws: {
+    BufferedCloudWatchLogger,
+    serializers,
+  },
+};
+
+const middleware = {
+  aws: {
+    apigBodyMiddleware,
+    lambdaWarmupMiddleware,
+  },
+};
+const errors = {
+  aws: {
+    apig,
+  },
+};
+const output = {
+  aws: {
+    apig: {
+      response: apigResponse.respond,
+      error: apigResponse.error,
     },
   },
-  middleware: {
-    aws: {
-      apigBodyMiddleware,
-      lambdaWarmupMiddleware,
-    },
-  },
-  errors: {
-    aws: {
-      apig,
-    },
-  },
-  output: {
-    aws: {
-      apig: {
-        response: apigReponse,
-        error: apigError,
+};
+const test = {
+  aws: {
+    lambda: {
+      integration: {
+
       },
     },
   },
-  test: {
-    aws: {
-      lambda: {
-        integration: {
-
-        },
-      },
-    },
-    utils: {
-      AWSAPIClient,
-      contextMock,
-      Invoker,
-    },
+  utils: {
+    AWSAPIClient,
+    Context,
+    Invoker,
   },
+};
+
+export {
+  logging,
+  middleware,
+  errors, output, test,
+
 };

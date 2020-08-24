@@ -1,5 +1,4 @@
-const bodyMiddleware = require('../../../../../../src/contrib/middleware/aws/lambda/event-body-middleware');
-
+import bodyMiddleware from '../../../../../../src/contrib/middleware/aws/lambda/event-body-middleware'
 describe('body middleware', () => {
   it('valid event', async () => {
     const state = {

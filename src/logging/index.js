@@ -9,7 +9,7 @@ const { LogUtils } = require('./logging-utils');
  * @class
  * Common structured logging interface
  */
-class StructLog {
+export default class StructLog {
   /**
    * Ctor for Structured Logging class instance
    * @param name {string} Logger name used to override context.functionName
@@ -217,5 +217,3 @@ class StructLog {
   }
 }
 
-
-module.exports = { StructLog };

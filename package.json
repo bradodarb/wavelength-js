@@ -1,13 +1,13 @@
 {
   "name": "wavelength-js",
-  "version": "2.2.4",
+  "version": "2.3.0",
   "description": "Serverless micro-framework and support utilities",
   "main": "src/index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "lint": "eslint src/**",
+    "lint": "eslint src/** --fix",
     "test": "jest test/unit/**",
     "build": "babel source --presets babel-preset-es2015 --out-dir distribution",
     "coverage": "jest --collectCoverageFrom=src/**/*.js --coverage test/unit"
@@ -39,6 +39,8 @@
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-react": "^7.0.0",
     "@types/jest": "^21.X",
+    "@types/lodash": "^4.14.159",
+    "@types/node": "^14.6.0",
     "babel-jest": "^24.5.0",
     "babel-loader": "8.0.4",
     "babel-plugin-source-map-support": "^2.1.1",
@@ -51,7 +53,8 @@
     "jest-cli": "^26.4.0",
     "jest-environment-jsdom": "^24.9.0",
     "jest-html-reporter": "^2.4.2",
-    "jest-xml-matcher": "^1.1.1"
+    "jest-xml-matcher": "^1.1.1",
+    "typescript": "^4.0.2"
   },
   "dependencies": {
     "aws-sdk": "^2.738.0",

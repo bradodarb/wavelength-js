@@ -17,4 +17,4 @@ const getSecret = async (secretName) => {
     throw error;
   }
 };
-module.exports = { getSecret };
+export default { getSecret };

@@ -48,8 +48,4 @@ class BaseException extends Error {
   }
 }
 
-
-module.exports = {
-  BaseException,
-  CancelExecutionError,
-};
+export { BaseException, CancelExecutionError };
