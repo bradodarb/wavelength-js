@@ -1,4 +1,4 @@
-class Container {
+export default class Container {
   constructor() {
     this.resources = {};
   }
@@ -23,5 +23,3 @@ class Container {
     return this;
   }
 }
-
-export { Container };

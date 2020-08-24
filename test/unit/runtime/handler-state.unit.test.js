@@ -1,6 +1,6 @@
 const Context = require('../../util/lambda-context-mock');
-const { StructLog } = require('../../../src/logging');
-const { HandlerState } = require('../../../src/runtime/handler-state');
+import StructLog from "../../../src/logging";
+import HandlerState from "../../../src/runtime/handler-state";
 
 function getState(name = 'Test') {
   const contextMock = new Context();

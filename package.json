@@ -1,13 +1,13 @@
 {
   "name": "wavelength-js",
-  "version": "2.2.4",
+  "version": "2.3.0",
   "description": "Serverless micro-framework and support utilities",
   "main": "src/index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "lint": "eslint src/**",
+    "lint": "eslint src/** --fix",
     "test": "jest test/unit/**",
     "build": "babel source --presets babel-preset-es2015 --out-dir distribution",
     "coverage": "jest --collectCoverageFrom=src/**/*.js --coverage test/unit"

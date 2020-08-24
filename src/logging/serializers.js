@@ -1,8 +1,6 @@
 /** @module log-serializers */
 const _ = require('lodash');
 const bunyan = require('bunyan');
-const pii = require('../utils/pii');
-
 
 module.exports = {
   /**

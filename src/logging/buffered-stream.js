@@ -64,7 +64,6 @@ class BufferedLogStream extends EventEmitter {
       return this;
     }
     if (reverseLevelMap[logRecord.level] > bunyan.WARN) {
-
       BufferedLogStream.dump(logRecord);
     }
     this.records.push(logRecord);

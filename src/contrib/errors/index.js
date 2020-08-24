@@ -12,7 +12,7 @@ const {
   BaseHttpException,
 } = require('./aws/apig');
 
-const apig = {
+export {
   Base4xxException,
   Base5xxException,
   Base401Exception,
@@ -24,7 +24,4 @@ const apig = {
   Base424Exception,
   Base429Exception,
   BaseHttpException,
-};
-export default {
-  apig,
 };

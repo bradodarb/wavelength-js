@@ -1,4 +1,4 @@
-function Context(options, cb) {
+export default function Context(options, cb) {
   return {
     succeed(result) {
       if (result === undefined) {
@@ -39,7 +39,3 @@ function Context(options, cb) {
     timeInMillis: options.timeInMillis || 3000,
   };
 }
-export default
-{
-  Context,
-};

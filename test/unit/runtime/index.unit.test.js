@@ -1,3 +1,4 @@
+import {Base4xxException} from "../../../src/contrib/errors/aws/apig";
 
 const {
   Wavelength, contrib: {
@@ -100,16 +101,17 @@ describe('Testing Runtime Engine', () => {
       },
       function errorMiddleWare(state) {
         state.logger.info({ bindings: { state, ...{ ware: 1 } } });
-        return new apiErrors.Base4xxException('Someone set us up the bomb');
+        return new Base4xxException('Someone set us up the bomb');
       }]);
-
     const result = await app.handler(async (state) => {
       state.logger.info({ event: 'App handler' });
       return { status: state.requestResult };
     })(event, contextMock);
+
     expect(result.statusCode).toBe(400);
     const responseBody = JSON.parse(result.body);
     expect(responseBody.message).toBe('Error: Someone set us up the bomb');
+
   });
 
   it('checks propagates callback style middleware error correctly', async () => {
@@ -131,7 +133,7 @@ describe('Testing Runtime Engine', () => {
       },
       function errorMiddleWare(state) {
         state.logger.info({ bindings: { state, ...{ ware: 1 } } });
-        return new apiErrors.Base4xxException('Someone set us up the bomb');
+        return new Base4xxException('Someone set us up the bomb');
       }]);
 
     await app.handler(async (state) => {
@@ -155,7 +157,7 @@ describe('Testing Runtime Engine', () => {
 
     const result = await app.handler(async (state) => {
       state.logger.info({ event: 'App handler' });
-      throw new apiErrors.Base4xxException('Someone set us up the bomb');
+      throw new Base4xxException('Someone set us up the bomb');
     })(event, contextMock);
     expect(result.statusCode).toBe(400);
     const responseBody = JSON.parse(result.body);
@@ -182,7 +184,7 @@ describe('Testing Runtime Engine', () => {
 
     await app.handler(async (state) => {
       state.logger.info({ event: 'App handler' });
-      throw new apiErrors.Base4xxException('Someone set us up the bomb');
+      throw new Base4xxException('Someone set us up the bomb');
     })(event, contextMock, callback);
   });
 

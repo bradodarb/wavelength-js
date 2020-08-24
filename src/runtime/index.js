@@ -1,19 +1,16 @@
 /** @module wavelength */
+
+import { BaseException, CancelExecutionError } from '../errors';
+import Decay from './middle-ware';
+import HandlerState from './handler-state';
+
 const { EventEmitter } = require('events');
-const { Decay } = require('./middle-ware');
-const {
-  Base4xxException, Base5xxException,
-} = require('../contrib/errors/aws/apig');
-const {
-  CancelExecutionError,
-} = require('../errors');
-const { HandlerState } = require('./handler-state');
 
 /**
  * @class
  * Wraps a lambda function in a similar way as express or koa creates an app
  */
-class Wavelength extends EventEmitter {
+export default class Wavelength extends EventEmitter {
   /**
    *    * Ctor for a Wavelength instance
    * @param name {string} name of the app
@@ -81,10 +78,7 @@ class Wavelength extends EventEmitter {
     if (this.checkCancellationError(error)) {
       return;
     }
-    if (this.checkApplicationError(error, Base4xxException)) {
-      return;
-    }
-    if (this.checkApplicationError(error, Base5xxException)) {
+    if (this.checkApplicationError(error, BaseException)) {
       return;
     }
     this.state.push({
@@ -184,6 +178,3 @@ class Wavelength extends EventEmitter {
     return false;
   }
 }
-
-
-export default { Wavelength };

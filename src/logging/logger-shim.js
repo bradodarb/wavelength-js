@@ -1,14 +1,14 @@
 /* eslint-disable prefer-rest-params */
 /** @module legacy-logger */
 
-const { StructLog } = require('.');
+import StructLog from './index';
 /**
  * Monkey patches the global console object so that it can emit structured logs
  * @param name {string} Logger name
  * @param context {object} incoming AWS lambda context object
  * @param  stream {WritableStream}
  */
-function patchConsole(name, context, stream = undefined) {
+export default function patchConsole(name, context, stream = undefined) {
   const logger = new StructLog(name, stream);
   logger.context = context;
   console.bind = logger.bind.bind(logger);
@@ -20,4 +20,3 @@ function patchConsole(name, context, stream = undefined) {
   console.append = logger.append.bind(logger.logger);
 }
 
-module.exports.patchConsole = patchConsole;

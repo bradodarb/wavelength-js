@@ -1,5 +1,4 @@
 const { isObject } = require('lodash');
-const { BaseHttpException } = require('../../errors/aws/apig');
 
 /**
  * Creates the standard response for a lambda return.
