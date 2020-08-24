@@ -1,4 +1,5 @@
 const { Wavelength } = require('./runtime');
+const { HandlerState } = require('./runtime/handler-state');
 const { Decay } = require('./runtime/middle-ware');
 const { Container } = require('./runtime/ioc');
 const { StructLog } = require('./logging');
@@ -10,7 +11,7 @@ const { Retry } = require('./utils/retrying');
 const pii = require('./utils/pii');
 const contrib = require('./contrib');
 
-module.exports = {
+export {
   awsUtils,
   patchConsole,
   errors,
@@ -18,6 +19,7 @@ module.exports = {
   StructLog,
   Metrics,
   Wavelength,
+  HandlerState,
   Container,
   Retry,
   pii,

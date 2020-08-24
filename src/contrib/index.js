@@ -7,43 +7,50 @@ const { AWSAPIClient } = require('./test-utils/aws/lambda/integration/utils/aws-
 const { Invoker } = require('./test-utils/aws/lambda/integration/utils/invoker');
 const contextMock = require('./test-utils/aws/lambda/integration/utils/context');
 
-module.exports = {
-  logging: {
-    aws: {
-      BufferedCloudWatchLogger,
-    },
-  },
-  middleware: {
-    aws: {
-      apigBodyMiddleware,
-      lambdaWarmupMiddleware,
-    },
-  },
-  errors: {
-    aws: {
-      apig,
-    },
-  },
-  output: {
-    aws: {
-      apig: {
-        response: apigReponse,
-        error: apigError,
-      },
-    },
-  },
-  test: {
-    aws: {
-      lambda: {
-        integration: {
 
-        },
-      },
-    },
-    utils: {
-      AWSAPIClient,
-      contextMock,
-      Invoker,
+const logging = {
+  aws: {
+    BufferedCloudWatchLogger,
+  },
+};
+
+const middleware = {
+  aws: {
+    apigBodyMiddleware,
+    lambdaWarmupMiddleware,
+  },
+};
+const errors = {
+  aws: {
+    apig,
+  },
+};
+const output = {
+  aws: {
+    apig: {
+      response: apigReponse,
+      error: apigError,
     },
   },
+};
+const test = {
+  aws: {
+    lambda: {
+      integration: {
+
+      },
+    },
+  },
+  utils: {
+    AWSAPIClient,
+    contextMock,
+    Invoker,
+  },
+};
+
+export {
+  logging,
+  middleware,
+  errors, output, test,
+
 };

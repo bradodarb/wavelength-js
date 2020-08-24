@@ -66,4 +66,4 @@ class Decay {
     this.complete(null, context);
   }
 }
-module.exports = { Decay };
+export default { Decay };

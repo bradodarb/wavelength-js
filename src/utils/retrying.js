@@ -381,7 +381,7 @@ class Retry {
 }
 
 
-module.exports = {
+export {
   Retry,
   Attempt,
   RetryError,

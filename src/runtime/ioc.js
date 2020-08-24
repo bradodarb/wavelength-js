@@ -24,4 +24,4 @@ class Container {
   }
 }
 
-module.exports = { Container };
+export { Container };

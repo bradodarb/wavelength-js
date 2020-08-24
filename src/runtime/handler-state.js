@@ -45,4 +45,4 @@ class HandlerState {
   }
 }
 
-module.exports = { HandlerState };
+export { HandlerState };

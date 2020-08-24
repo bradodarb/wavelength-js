@@ -66,4 +66,4 @@ class Invoker {
   }
 }
 
-module.exports = { Invoker };
+export default { Invoker };

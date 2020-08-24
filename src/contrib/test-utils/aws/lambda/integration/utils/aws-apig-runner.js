@@ -99,8 +99,8 @@ class AWSAPIGClient {
   }
 }
 
-module.exports = {
-  AWSAPIClient: AWSAPIGClient,
+export {
+  AWSAPIGClient,
   getToken,
   eventToRequest,
 };

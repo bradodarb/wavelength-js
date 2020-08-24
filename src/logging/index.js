@@ -218,4 +218,4 @@ class StructLog {
 }
 
 
-module.exports = { StructLog };
+export default{ StructLog };

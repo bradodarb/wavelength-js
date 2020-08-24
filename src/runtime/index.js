@@ -1,7 +1,6 @@
 /** @module wavelength */
-const { EventEmitter } = require('events').EventEmitter;
+const { EventEmitter } = require('events');
 const { Decay } = require('./middle-ware');
-const { getStandardResponse, getStandardError } = require('../utils/aws-object-utils');
 const {
   Base4xxException, Base5xxException,
 } = require('../contrib/errors/aws/apig');
@@ -187,4 +186,4 @@ class Wavelength extends EventEmitter {
 }
 
 
-module.exports = { Wavelength };
+export default { Wavelength };
