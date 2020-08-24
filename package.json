@@ -1,8 +1,9 @@
 {
   "name": "wavelength-js",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Serverless micro-framework and support utilities",
-  "main": "src/index.js",
+  "main": "./src/index.js",
+  "typess": "./dist/index.d.ts",
   "directories": {
     "test": "test"
   },
