@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="40ed911f-c437-4aba-b95d-288eefbc2274" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.babelrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.eslintrc.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.npmignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/declaration.tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jestConfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pull_request_template.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contrib/errors/aws/apig/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contrib/errors/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contrib/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contrib/logging/aws/buffered-cloudwatch-logger.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contrib/middleware/aws/lambda/event-body-middleware.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contrib/middleware/aws/lambda/warmup-detection-middleware.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contrib/response/aws/apig.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contrib/test-utils/aws/lambda/integration/utils/aws-apig-runner.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contrib/test-utils/aws/lambda/integration/utils/context.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contrib/test-utils/aws/lambda/integration/utils/invoker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contrib/test-utils/aws/lambda/integration/utils/secrets.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contrib/test-utils/utils/local-env.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/errors/error-codes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/errors/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logging/buffered-stream.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logging/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logging/inoculators/metrics/counter-metric.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logging/inoculators/metrics/gauge-metric.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logging/inoculators/metrics/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logging/inoculators/metrics/set-metric.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logging/inoculators/metrics/timer-metric.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logging/logger-shim.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logging/logging-utils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logging/serializers.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runtime/handler-state.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runtime/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runtime/ioc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/runtime/middle-ware.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/aws-object-utils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/http-status-codes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/json-serializer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/pii.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/retrying.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/string.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/testData/scottish-parliment-events.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/contrib/middleware/aws/lambda/event-body-middleware.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/contrib/response/aws/apig.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/errors/index.unit.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/jest/jest.unit.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/logging/buffered-stream.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/logging/index.unit.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/logging/logger-shim.unit.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/logging/metrics.inoculation.unit.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/logging/serializers.unit.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/runtime/handler-state.unit.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/runtime/index.unit.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/runtime/middle-ware.unit.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/utils/aws-object-utils.unit.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/utils/json-serializer.unit.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/utils/retrying.unit.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit/utils/string.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/util/api-gateway-event-mock.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/util/lambda-context-mock.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tslint.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="ProjectId" id="1XHReGxhbPX2H9XFIXKRsCVK9aA" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="10.19.0" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../marrow/devops-customdomainname" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/jest" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="settings.editor.selected.configurable" value="settings.nodejs" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/contrib/service-clients/aws/dynamodb" />
+      <recent name="$PROJECT_DIR$/src/contrib/errors/aws-apig/apig" />
+      <recent name="$PROJECT_DIR$/src/contrib/middleware/aws-lambda/lambda" />
+      <recent name="$PROJECT_DIR$/src/contrib/errors/aws-apig" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/contrib/test-utils/utils" />
+      <recent name="$PROJECT_DIR$/src/contrib/test-utils/aws/lambda/integration" />
+      <recent name="$PROJECT_DIR$/src/contrib/middleware/aws-lambda" />
+      <recent name="$PROJECT_DIR$/src/errors" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Jest.Testing StructLog.scrubs pii from event">
+    <configuration name="Testing StructLog.emits events in the order received" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/test/unit/logging/index.unit.test.js" />
+      <test-names>
+        <test-name value="Testing StructLog" />
+        <test-name value="emits events in the order received" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Testing StructLog.scrubs global pii from objects" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/test/unit/logging/index.unit.test.js" />
+      <test-names>
+        <test-name value="Testing StructLog" />
+        <test-name value="scrubs global pii from objects" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Testing StructLog.scrubs global pii from stringified objects" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/test/unit/logging/index.unit.test.js" />
+      <test-names>
+        <test-name value="Testing StructLog" />
+        <test-name value="scrubs global pii from stringified objects" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Testing StructLog.scrubs pii from event" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/test/unit/logging/index.unit.test.js" />
+      <test-names>
+        <test-name value="Testing StructLog" />
+        <test-name value="scrubs pii from event" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="index.unit.test.js" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST_FILE" />
+      <test-file value="$PROJECT_DIR$/test/unit/logging/index.unit.test.js" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Jest.Testing StructLog.scrubs pii from event" />
+        <item itemvalue="Jest.Testing StructLog.scrubs global pii from stringified objects" />
+        <item itemvalue="Jest.Testing StructLog.scrubs global pii from objects" />
+        <item itemvalue="Jest.index.unit.test.js" />
+        <item itemvalue="Jest.Testing StructLog.emits events in the order received" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="40ed911f-c437-4aba-b95d-288eefbc2274" name="Default Changelist" comment="" />
+      <created>1580701126922</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1580701126922</updated>
+      <workItem from="1580701129376" duration="2432000" />
+      <workItem from="1580919699245" duration="1273000" />
+      <workItem from="1582255228805" duration="599000" />
+      <workItem from="1582310615402" duration="599000" />
+      <workItem from="1582390063823" duration="599000" />
+      <workItem from="1582578859700" duration="1250000" />
+      <workItem from="1582755098468" duration="886000" />
+      <workItem from="1583988065687" duration="807000" />
+      <workItem from="1584032725307" duration="1880000" />
+      <workItem from="1584561016373" duration="1196000" />
+      <workItem from="1584633151847" duration="599000" />
+      <workItem from="1584985486064" duration="599000" />
+      <workItem from="1585137920501" duration="599000" />
+      <workItem from="1585539568321" duration="2161000" />
+      <workItem from="1585765949356" duration="599000" />
+      <workItem from="1586819702642" duration="16003000" />
+      <workItem from="1586880725757" duration="21021000" />
+      <workItem from="1587400219713" duration="2663000" />
+      <workItem from="1587943444374" duration="2958000" />
+      <workItem from="1588552069681" duration="599000" />
+      <workItem from="1588555670806" duration="2169000" />
+      <workItem from="1588917616299" duration="3549000" />
+      <workItem from="1592343626806" duration="4968000" />
+      <workItem from="1592410220026" duration="599000" />
+      <workItem from="1592491713722" duration="600000" />
+      <workItem from="1592847224983" duration="599000" />
+      <workItem from="1592921576893" duration="599000" />
+      <workItem from="1593024264279" duration="633000" />
+      <workItem from="1593096706397" duration="601000" />
+      <workItem from="1593460534166" duration="599000" />
+      <workItem from="1593618633731" duration="599000" />
+      <workItem from="1593712665736" duration="599000" />
+      <workItem from="1594048808740" duration="1955000" />
+      <workItem from="1594675046681" duration="1798000" />
+      <workItem from="1596251718077" duration="62348000" />
+      <workItem from="1598072864441" duration="34722000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="817" y="928" width="276" height="243" key="#ESLint" timestamp="1598223040671">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state x="817" y="928" width="276" height="243" key="#ESLint/0.0.1920.2093@0.0.1920.2093" timestamp="1598223040671" />
+    <state x="100" y="100" width="1720" height="1893" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1597880690881">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state x="100" y="100" width="1720" height="1893" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.0.1920.2093@0.0.1920.2093" timestamp="1597880690881" />
+    <state x="1229" y="903" key="#xdebugger.evaluate" timestamp="1597964351700">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state x="1229" y="903" key="#xdebugger.evaluate/0.0.1920.2093@0.0.1920.2093" timestamp="1597964351700" />
+    <state width="799" height="626" key="DebuggerActiveHint" timestamp="1597964941185">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="799" height="626" key="DebuggerActiveHint/0.0.1920.2093@0.0.1920.2093" timestamp="1597964941185" />
+    <state width="663" height="646" key="DebuggerActiveHint/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375853309" />
+    <state x="100" y="100" width="1720" height="1893" key="DiffContextDialog" timestamp="1597863874734">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state x="100" y="100" width="1720" height="1893" key="DiffContextDialog/0.0.1920.2093@0.0.1920.2093" timestamp="1597863874734" />
+    <state x="743" y="804" width="424" height="491" key="FileChooserDialogImpl" timestamp="1598020700535">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state x="743" y="804" width="424" height="491" key="FileChooserDialogImpl/0.0.1920.2093@0.0.1920.2093" timestamp="1598020700535" />
+    <state width="1878" height="236" key="GridCell.Tab.0.bottom" timestamp="1598291073030">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="236" key="GridCell.Tab.0.bottom/0.0.1920.2093@0.0.1920.2093" timestamp="1598291073030" />
+    <state width="1878" height="746" key="GridCell.Tab.0.bottom/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920226" />
+    <state width="1878" height="236" key="GridCell.Tab.0.center" timestamp="1598291073029">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="236" key="GridCell.Tab.0.center/0.0.1920.2093@0.0.1920.2093" timestamp="1598291073029" />
+    <state width="1878" height="746" key="GridCell.Tab.0.center/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920226" />
+    <state width="1878" height="236" key="GridCell.Tab.0.left" timestamp="1598291073028">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="236" key="GridCell.Tab.0.left/0.0.1920.2093@0.0.1920.2093" timestamp="1598291073028" />
+    <state width="1878" height="746" key="GridCell.Tab.0.left/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920226" />
+    <state width="1878" height="236" key="GridCell.Tab.0.right" timestamp="1598291073030">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="236" key="GridCell.Tab.0.right/0.0.1920.2093@0.0.1920.2093" timestamp="1598291073030" />
+    <state width="1878" height="746" key="GridCell.Tab.0.right/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920226" />
+    <state width="1878" height="746" key="GridCell.Tab.1.bottom" timestamp="1598068017789">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="746" key="GridCell.Tab.1.bottom/0.0.1920.2093@0.0.1920.2093" timestamp="1598068017789" />
+    <state width="1878" height="746" key="GridCell.Tab.1.bottom/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375923798" />
+    <state width="1878" height="746" key="GridCell.Tab.1.center" timestamp="1598068017788">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="746" key="GridCell.Tab.1.center/0.0.1920.2093@0.0.1920.2093" timestamp="1598068017788" />
+    <state width="1878" height="746" key="GridCell.Tab.1.center/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375923798" />
+    <state width="1878" height="746" key="GridCell.Tab.1.left" timestamp="1598068017788">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="746" key="GridCell.Tab.1.left/0.0.1920.2093@0.0.1920.2093" timestamp="1598068017788" />
+    <state width="1878" height="746" key="GridCell.Tab.1.left/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375923798" />
+    <state width="1878" height="746" key="GridCell.Tab.1.right" timestamp="1598068017789">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="746" key="GridCell.Tab.1.right/0.0.1920.2093@0.0.1920.2093" timestamp="1598068017789" />
+    <state width="1878" height="746" key="GridCell.Tab.1.right/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375923798" />
+    <state width="1878" height="746" key="GridCell.Tab.2.bottom" timestamp="1598068017791">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="746" key="GridCell.Tab.2.bottom/0.0.1920.2093@0.0.1920.2093" timestamp="1598068017791" />
+    <state width="1878" height="746" key="GridCell.Tab.2.bottom/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920163" />
+    <state width="1878" height="746" key="GridCell.Tab.2.center" timestamp="1598068017789">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="746" key="GridCell.Tab.2.center/0.0.1920.2093@0.0.1920.2093" timestamp="1598068017789" />
+    <state width="1878" height="746" key="GridCell.Tab.2.center/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920163" />
+    <state width="1878" height="746" key="GridCell.Tab.2.left" timestamp="1598068017789">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="746" key="GridCell.Tab.2.left/0.0.1920.2093@0.0.1920.2093" timestamp="1598068017789" />
+    <state width="1878" height="746" key="GridCell.Tab.2.left/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920163" />
+    <state width="1878" height="746" key="GridCell.Tab.2.right" timestamp="1598068017791">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="746" key="GridCell.Tab.2.right/0.0.1920.2093@0.0.1920.2093" timestamp="1598068017791" />
+    <state width="1878" height="746" key="GridCell.Tab.2.right/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920163" />
+    <state width="1878" height="746" key="GridCell.Tab.3.bottom" timestamp="1598068017791">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="746" key="GridCell.Tab.3.bottom/0.0.1920.2093@0.0.1920.2093" timestamp="1598068017791" />
+    <state width="1878" height="746" key="GridCell.Tab.3.bottom/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920163" />
+    <state width="1878" height="746" key="GridCell.Tab.3.center" timestamp="1598068017791">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="746" key="GridCell.Tab.3.center/0.0.1920.2093@0.0.1920.2093" timestamp="1598068017791" />
+    <state width="1878" height="746" key="GridCell.Tab.3.center/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920163" />
+    <state width="1878" height="746" key="GridCell.Tab.3.left" timestamp="1598068017791">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="746" key="GridCell.Tab.3.left/0.0.1920.2093@0.0.1920.2093" timestamp="1598068017791" />
+    <state width="1878" height="746" key="GridCell.Tab.3.left/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920163" />
+    <state width="1878" height="746" key="GridCell.Tab.3.right" timestamp="1598068017791">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="1878" height="746" key="GridCell.Tab.3.right/0.0.1920.2093@0.0.1920.2093" timestamp="1598068017791" />
+    <state width="1878" height="746" key="GridCell.Tab.3.right/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920163" />
+    <state x="464" y="681" width="992" height="737" key="SettingsEditor" timestamp="1597947771027">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state x="464" y="681" width="992" height="737" key="SettingsEditor/0.0.1920.2093@0.0.1920.2093" timestamp="1597947771027" />
+    <state width="960" height="1046" key="XDebugger.FullValuePopup" timestamp="1597857304512">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state width="960" height="1046" key="XDebugger.FullValuePopup/0.0.1920.2093@0.0.1920.2093" timestamp="1597857304512" />
+    <state x="570" y="660" width="770" height="780" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1597964006705">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state x="570" y="660" width="770" height="780" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1920.2093@0.0.1920.2093" timestamp="1597964006705" />
+    <state x="2102" y="696" width="906" height="707" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1592375799081">
+      <screen x="1600" y="0" width="1920" height="2160" />
+    </state>
+    <state x="2102" y="696" width="906" height="707" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375799081" />
+    <state x="670" y="638" width="579" height="816" key="find.popup" timestamp="1597963986936">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state x="670" y="638" width="579" height="816" key="find.popup/0.0.1920.2093@0.0.1920.2093" timestamp="1597963986936" />
+    <state x="623" y="492" width="672" height="678" key="search.everywhere.popup" timestamp="1597811875174">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state x="623" y="492" width="672" height="678" key="search.everywhere.popup/0.0.1920.2093@0.0.1920.2093" timestamp="1597811875174" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/middlewares/warmup-plugin-bypass.js</url>
+          <line>12</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/middlewares/warmup-plugin-bypass.js</url>
+          <line>4</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/middlewares/warmup-plugin-bypass.js</url>
+          <line>5</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/middlewares/warmup-plugin-bypass.js</url>
+          <line>9</line>
+          <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/contrib/errors/aws/apig/index.js</url>
+          <line>14</line>
+          <option name="timeStamp" value="38" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/errors/index.unit.test.js</url>
+          <line>33</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/logging/buffered-stream.test.js</url>
+          <line>55</line>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/logging/buffered-stream.test.js</url>
+          <line>56</line>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/logging/buffered-stream.test.js</url>
+          <line>57</line>
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/logging/metrics.inoculation.unit.test.js</url>
+          <line>52</line>
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/logging/metrics.inoculation.unit.test.js</url>
+          <line>24</line>
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/errors/index.unit.test.js</url>
+          <line>43</line>
+          <option name="timeStamp" value="84" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/errors/index.unit.test.js</url>
+          <line>44</line>
+          <option name="timeStamp" value="86" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/runtime/index.unit.test.js</url>
+          <line>111</line>
+          <option name="timeStamp" value="87" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/contrib/response/aws/apig.js</url>
+          <line>36</line>
+          <option name="timeStamp" value="88" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/contrib/middleware/aws/lambda/event-body-middleware.js</url>
+          <line>24</line>
+          <option name="timeStamp" value="89" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/contrib/middleware/aws/lambda/event-body-middleware.js</url>
+          <line>23</line>
+          <option name="timeStamp" value="90" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/contrib/middleware/aws/lambda/event-body-middleware.test.js</url>
+          <line>19</line>
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/contrib/middleware/aws/lambda/event-body-middleware.test.js</url>
+          <line>20</line>
+          <option name="timeStamp" value="93" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/logging/logger-shim.unit.test.js</url>
+          <line>84</line>
+          <option name="timeStamp" value="107" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/logging/logger-shim.unit.test.js</url>
+          <line>83</line>
+          <option name="timeStamp" value="108" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/logging/index.unit.test.js</url>
+          <line>163</line>
+          <option name="timeStamp" value="123" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/logging/index.unit.test.js</url>
+          <line>164</line>
+          <option name="timeStamp" value="125" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/logging/index.unit.test.js</url>
+          <line>165</line>
+          <option name="timeStamp" value="128" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/logging/index.unit.test.js</url>
+          <line>166</line>
+          <option name="timeStamp" value="129" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/test/unit/logging/index.unit.test.js</url>
+          <line>167</line>
+          <option name="timeStamp" value="130" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

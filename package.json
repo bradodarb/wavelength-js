@@ -1,83 +1,65 @@
 {
   "name": "wavelength-js",
-  "version": "2.3.1",
-  "description": "Serverless micro-framework and support utilities",
-  "main": "./src/index.js",
-  "typess": "./dist/index.d.ts",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "lint": "eslint src/** --fix",
-    "test": "jest test/unit/**",
-    "build": "babel source --presets babel-preset-es2015 --out-dir distribution",
-    "coverage": "jest --collectCoverageFrom=src/**/*.js --coverage test/unit"
-  },
+  "version": "3.0.0",
+  "license": "Apache-2.0",
+  "author": "Brad Murry",
+  "description": "FAAS Micro Framework",
+  "homepage": "https://bradodarb.github.com/wavelength-js/README.md",
+  "keywords": [
+    "TypeScript",
+    "JavaScript",
+    "FAAS",
+    "aws",
+    "lambda",
+    "middleware"
+  ],
+  "libraryFile": "index",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bradodarb/wavelength-js.git"
   },
-  "keywords": [
-    "serverless",
-    "aws",
-    "lambda",
-    "nodejs",
-    "javascript",
-    "es6"
-  ],
-  "author": "Brad Murry",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/bradodarb/wavelength-js/issues"
   },
-  "homepage": "https://github.com/bradodarb/wavelength-js#readme",
+  "scripts": {
+    "build": "rollup -c rollup.config.ts",
+    "watch": "rollup -cw rollup.config.ts",
+    "configure-npm": "node ./set-registry.js -s https://registry.npmjs.org",
+    "configure-gpr": "node ./set-registry.js -s https://npm.pkg.github.com",
+    "test": "jest"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.1.6",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/plugin-transform-object-assign": "^7.0.0",
-    "@babel/plugin-transform-react-jsx": "^7.1.6",
-    "@babel/preset-env": "^7.1.6",
-    "@babel/preset-react": "^7.0.0",
-    "@types/jest": "^21.X",
-    "@types/lodash": "^4.14.159",
+    "@types/aws-lambda": "^8.10.17",
+    "@types/bunyan": "^1.8.6",
+    "@types/jest": "^26.0.9",
     "@types/node": "^14.6.0",
-    "babel-jest": "^24.5.0",
-    "babel-loader": "8.0.4",
-    "babel-plugin-source-map-support": "^2.1.1",
-    "eslint": "5.0.1",
-    "eslint-config-airbnb-base": "12.1.0",
-    "eslint-plugin-import": "2.12.0",
-    "install": "^0.12.2",
-    "jest": "^23.x",
-    "jest-ajv": "1.0.3",
-    "jest-cli": "^26.4.0",
-    "jest-environment-jsdom": "^24.9.0",
-    "jest-html-reporter": "^2.4.2",
-    "jest-xml-matcher": "^1.1.1",
-    "typescript": "^4.0.2"
+    "@types/rollup-plugin-json": "^3.0.2",
+    "jest": "^26.2.2",
+    "jest-config": "^26.2.2",
+    "rollup": "^2.23.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-sourcemaps": "^0.6.2",
+    "rollup-plugin-typescript2": "^0.27.2",
+    "rollup-plugin-uglify": "^6.0.4",
+    "terser": "^5.0.0",
+    "ts-jest": "^26.1.4",
+    "typescript": "^3.9.7"
   },
   "dependencies": {
-    "aws-sdk": "^2.738.0",
-    "axios": "^0.19.2",
-    "bunyan": "^1.8.12",
-    "dotenv": "^8.2.0",
-    "fast-safe-stringify": "^2.0.6",
-    "lodash": "^4.17.10",
-    "mem": "4.0.0",
-    "reusify": "^1.0.4",
-    "serverless-jest-plugin": "^0.1.6",
-    "uuid": "^3.0.1"
-  },
-  "jest": {
-    "testURL": "http://localhost/",
-    "testEnvironment": "node",
-    "clearMocks": true,
-    "verbose": true,
-    "coverageThreshold": {
-      "global": {
-        "statements": 80
-      }
-    }
+    "@types/lodash": "^4.14.160",
+    "bunyan": "^1.8.14",
+    "fast-safe-stringify": "^2.0.7",
+    "lodash": "^4.17.20"
   }
 }

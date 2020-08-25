@@ -1,25 +1,60 @@
 {
-  // Change this to match your project
-  "include": ["src/**/*"],
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "es6",
+    "module": "es2015",
+    "lib": [
+      "es2015",
+      "es2016",
+      "es2017",
+      "dom"
+    ],
+    "strict": true,
+    "sourceMap": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declarationDir": "dist",
+    "outDir": "dist/lib",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "sourceRoot": "/",
+    "baseUrl": "./",
+    "paths": {
+      "@src/*": [
+        "src/*"
+      ],
+      "@logging/*": [
+        "src/logging/*"
+      ],
+      "@util/*": [
+        "src/util/*"
+      ],
+      "@runtime/*": [
+        "src/runtime/*"
+      ],
+      "@middleware/*": [
+        "src/middleware/*"
+      ],
+      "@errors/*": [
+        "src/errors/*"
+      ],
+      "@tests/*": [
+        "tests/*"
+      ]
+    }
+  },
+  "include": [
+    "src"
+  ],
   "exclude": [
     "node_modules/**/*",
-    ".serverless/**/*",
-    ".webpack/**/*",
-    "_warmup/**/*",
-    ".vscode/**/*"
+    ".vscode/**/*",
+    ".idea/**/*"
   ],
-  "compilerOptions": {
-    // Tells TypeScript to read JS files, as
-    // normally they are ignored as source files
-    "allowJs": true,
-    // Generate d.ts files
-    "declaration": true,
-    // This compiler run should
-    // only output d.ts files
-    "emitDeclarationOnly": true,
-    // Types should go into this directory.
-    // Removing this would place the .d.ts files
-    // next to the .js files
-    "outDir": "dist"
-  }
+
 }

@@ -18,16 +18,20 @@ clean:
 	rm -rf .pytest_cache
 	rm -rf .cache
 	rm -rf .serverless
+	rm -rf dist
 
 .PHONY: lint
 lint:
-	docker-compose run --rm app yarn lint
+	yarn lint
 
 .PHONY: type
-type:
-	docker-compose run --rm app yarn tsc
+type: clean
+	yarn tsc --noemit
+.PHONY: build
+build: clean
+	yarn build
 .PHONY: test
 test:
-	docker-compose run --rm -e test_stage=${stage} app yarn coverage --maxWorkers=2
+	yarn coverage --maxWorkers=2
 .PHONY: check
 check: lint type test

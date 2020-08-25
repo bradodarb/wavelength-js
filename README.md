@@ -1,145 +1,58 @@
-# wavelength
-Shared Node Library for managing AWS Lambda application lifecycles.
-Middleware, global response handling, Logging, Error Handling etc
+# Wavelength
 
+[![npm](https://img.shields.io/npm/dt/@bradodarb/wavelength-js)](https://www.npmjs.com/package/wavelength-js)
+[![NPM version](https://badge.fury.io/js/%40bradodarb%2Fwavelength-js.svg)](https://www.npmjs.com/package/wavelength-js)
+[![License](https://img.shields.io/github/license/bradodarb/wavelength-js)](https://github.com/bradodarb/wavelength-js/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/bradodarb/wavelength-js)](https://github.com/bradodarb/wavelength-js/issues)
+[![GitHub forks](https://img.shields.io/github/forks/bradodarb/wavelength-js)](https://github.com/bradodarb/wavelength-js/network)
+[![GitHub stars](https://img.shields.io/github/stars/bradodarb/wavelength-js)](https://github.com/bradodarb/wavelength-js/stargazers)
+![GitHub top language](https://img.shields.io/github/languages/top/bradodarb/wavelength-js)
 
-`yarn add wavelength-js`
+[![build-and-test-package](https://github.com/bradodarb/wavelength-js/workflows/build-and-test-package/badge.svg)](https://github.com/bradodarb/wavelength-js/tree/master/test)
+[![publish-npm-package](https://github.com/bradodarb/wavelength-js/workflows/publish-npm-package/badge.svg)](https://github.com/bradodarb/wavelength-js/releases)
+[![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/@bradodarb/wavelength-js)](https://www.npmjs.com/package/@bradodarb/wavelength-js?activeTab=dependencies)
 
+[![Patreon](https://img.shields.io/badge/Donate-Patreon-informational)](https://www.patreon.com/bradodarb)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Brad%20Murry-informational?style=social&logo=linkedin)](https://www.linkedin.com/in/bradmurry/)
 
-# Version 2 has added and updated many, many features and this readme will reflect them soon! 
+Micro-framework for FAAS applications.
 
+## Install
 
-## Application
-
-
-Inside your function handler, create a Wavelength instance
-
-```js
-    const app = new Wavelength({ name: 'MyRestful API', event, context });
-    
-    ...
-    Next step: add middleware...
-    ...
-
-
-
-    module.exports.add = app.handler(async (state)=>{
-       // doowutchyalike    
-    });
-}
-
-```
-
-Once you've created a lightweight application runner, add some middleware using a familiar syntax
-
-
-```js
-    const app = new Wavelength({ name: 'MyRestful API', event, context });
-    
-    app.middleWare.use([accessToken, checkUserRole, validateBody]);
-
-
-
-    module.exports.add = app.handler(async (state)=>{
-       // doowutchyalike    
-    });
-}
-
+```shell
+yarn add wavelength-js
 ```
 
 
+## Import package into your application
 
-## Legacy Logging
-For projects in transition to take advantage of the library's execution pipeline pattern, we've introduced
-a bootstrapping function to override the `console` object with our structured logger.
+### TypeScript
 
-
-```
-const logLambda = require('wavelength-js').bootstrapHandlerLogging;
+```typescript
+import {Runtime} from "wavelength-js";
 ```
 
-Once imported, wrap your existing function:
- 
- ```
-  // First parameter is just a normal handler function, the second is the function name to tag the logger with (pass in null to derive from the Lambda context object)
- exports.handler = logLambda((event) => {
-    ... sweet, sweet handler code
-   return myHandlerResult;
- }, 'My-API.functionName');
+### JavaScript
 
- ```
-
-### How it works
-
-The global `console` object is patched as follows:
-```js
-  const logger = new LegacyLogger(name, event, context);
-  console.bind = logger.bind.bind(logger);
-  console.log = logger.log.bind(logger);
-  console.info = logger.info.bind(logger);
-  console.warn = logger.warn.bind(logger);
-  console.error = logger.error.bind(logger);
-  console.flush = logger.flush.bind(logger);
+```javascript
+const {Runtime} = require("wavelength-js");
 ```
 
-As can be seen, we override the console's log, info, warn and error functions with that of a structured logger
 
+## commands
 
-Additionally, a `bind` function is exposed to persist key/value pairs to future log emissions
-and a `flush` function is added to allow the handler to flush the buffered logs (and to optionally log the handler's return result)
+`yarn run build`
 
-* The first number or string object passed in will be emitted as the structured log's `event`
-* The second number or string will be emitted as the `details`
-* A boolean will be used for the structured logger's trim `limitOutput` (defaults to `true`)
-* If an object is passed in and is an instance of Error, it will be emitted as the structured log's `err` 
-* For subsequent objects passed in, if the `details` fields has not been set it will use the first non-error object
-* If however the `details` have been set (or if there are two non-error objects passed in it will use it for the `bindings`)
+`yarn run watch`
 
+`yarn run test`
 
+## Demo
 
+See, how it's working: [https://runkit.com/lopatnov/wavelength-js](https://runkit.com/bradodarb/wavelength-js)
 
- 
-## Errors (Throwing application level errors)
+Test it with a runkit: [https://npm.runkit.com/@bradodarb/wavelength-js](https://npm.runkit.com/%40bradodarb%2Fwavelength-js)
 
-`const {errors, awsUtils} = require('wavelength-js');`
+## Rights and Agreements
 
-
-The Exception classes derive from `BaseException`, which has the `getResponse` method that is used to build a
- standardized error response object.
- 
- ##### Using base errors to control error responses example:
- 
- ```js
- 
- try{
-  //... cool cognito stuff ...
-  if (!user.hasAccess(this)){
-    throw new errors.Base403Exception('User logged in but does not have access to this resource');
-  }
-  
-  return user.roles(this);
- 
- }catch (e) {
-   if (e instanceof errors.BaseException){
-     return e.getResponse(<current AWS context object passed into handler function>) // Still needs to be pushed through  `awsUtils.getStandardResponse`
-   }
- }
-```
-
-##### Using AWS Object Utilities to control error responses example:
-
-```js
-//... cool cognito stuff ...
-  if (!user.hasAccess(this)){
-    return awsUtils.getStandardError({
-    status: 403,
-    message: 'Forbidden',
-    reason: 'User logged in but does not have access to this resource',
-    requestId: 'current request id',
-    code: 1006
-    })
-  }
-  
-  return user.roles(this);
-```
-
+License [MIT](https://github.com/bradodarb/wavelength-js/blob/master/LICENSE)
