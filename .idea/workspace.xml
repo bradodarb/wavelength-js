@@ -2,75 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40ed911f-c437-4aba-b95d-288eefbc2274" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.babelrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.eslintrc.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.npmignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.prettierrc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/declaration.tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jestConfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pull_request_template.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contrib/errors/aws/apig/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contrib/errors/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contrib/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contrib/logging/aws/buffered-cloudwatch-logger.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contrib/middleware/aws/lambda/event-body-middleware.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contrib/middleware/aws/lambda/warmup-detection-middleware.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contrib/response/aws/apig.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contrib/test-utils/aws/lambda/integration/utils/aws-apig-runner.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contrib/test-utils/aws/lambda/integration/utils/context.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contrib/test-utils/aws/lambda/integration/utils/invoker.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contrib/test-utils/aws/lambda/integration/utils/secrets.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contrib/test-utils/utils/local-env.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/errors/error-codes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/errors/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logging/buffered-stream.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logging/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logging/inoculators/metrics/counter-metric.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logging/inoculators/metrics/gauge-metric.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logging/inoculators/metrics/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logging/inoculators/metrics/set-metric.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logging/inoculators/metrics/timer-metric.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logging/logger-shim.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logging/logging-utils.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/logging/serializers.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runtime/handler-state.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runtime/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runtime/ioc.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/runtime/middle-ware.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/aws-object-utils.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/http-status-codes.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/json-serializer.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/pii.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/retrying.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/string.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/testData/scottish-parliment-events.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/contrib/middleware/aws/lambda/event-body-middleware.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/contrib/response/aws/apig.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/errors/index.unit.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/jest/jest.unit.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/logging/buffered-stream.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/logging/index.unit.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/logging/logger-shim.unit.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/logging/metrics.inoculation.unit.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/logging/serializers.unit.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/runtime/handler-state.unit.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/runtime/index.unit.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/runtime/middle-ware.unit.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/utils/aws-object-utils.unit.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/utils/json-serializer.unit.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/utils/retrying.unit.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit/utils/string.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/util/api-gateway-event-mock.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/util/lambda-context-mock.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tslint.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +34,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="10.19.0" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../marrow/devops-customdomainname" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -118,17 +50,18 @@
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/contrib/test-utils/utils" />
+      <recent name="$PROJECT_DIR$/src/contrib/test-utils/aws/lambda/integration" />
+      <recent name="$PROJECT_DIR$/src/contrib/middleware/aws-lambda" />
+      <recent name="$PROJECT_DIR$/src/errors" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/contrib/service-clients/aws/dynamodb" />
       <recent name="$PROJECT_DIR$/src/contrib/errors/aws-apig/apig" />
       <recent name="$PROJECT_DIR$/src/contrib/middleware/aws-lambda/lambda" />
       <recent name="$PROJECT_DIR$/src/contrib/errors/aws-apig" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/contrib/test-utils/utils" />
-      <recent name="$PROJECT_DIR$/src/contrib/test-utils/aws/lambda/integration" />
-      <recent name="$PROJECT_DIR$/src/contrib/middleware/aws-lambda" />
-      <recent name="$PROJECT_DIR$/src/errors" />
     </key>
   </component>
   <component name="RunManager" selected="Jest.Testing StructLog.scrubs pii from event">
@@ -253,7 +186,7 @@
       <workItem from="1594048808740" duration="1955000" />
       <workItem from="1594675046681" duration="1798000" />
       <workItem from="1596251718077" duration="62348000" />
-      <workItem from="1598072864441" duration="34722000" />
+      <workItem from="1598072864441" duration="34796000" />
     </task>
     <servers />
   </component>
