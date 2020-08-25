@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="40ed911f-c437-4aba-b95d-288eefbc2274" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.es.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.es.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.es.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.es.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jest.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/jest.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rollup.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/rollup.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logging/buffered-logger.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/logging/buffered-logger.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logging/logger.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/logging/logger.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/logging/logger.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/logging/logger.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +56,7 @@
     <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/jest" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="settings.nodejs" />
-    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -64,80 +73,60 @@
       <recent name="$PROJECT_DIR$/src/contrib/errors/aws-apig" />
     </key>
   </component>
-  <component name="RunManager" selected="Jest.Testing StructLog.scrubs pii from event">
-    <configuration name="Testing StructLog.emits events in the order received" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Jest.Logger tests.should create Logger and output to stdout">
+    <configuration name="Logger tests" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="SUITE" />
+      <test-file value="$PROJECT_DIR$/test/logging/logger.test.ts" />
+      <test-names>
+        <test-name value="Logger tests" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="Logger tests.should create Logger and output to stdout" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
       <jest-package value="$PROJECT_DIR$/node_modules/jest" />
       <working-dir value="$PROJECT_DIR$" />
       <envs />
       <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/test/unit/logging/index.unit.test.js" />
+      <test-file value="$PROJECT_DIR$/test/logging/logger.test.ts" />
       <test-names>
-        <test-name value="Testing StructLog" />
-        <test-name value="emits events in the order received" />
+        <test-name value="Logger tests" />
+        <test-name value="should create Logger and output to stdout" />
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="Testing StructLog.scrubs global pii from objects" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/test/unit/logging/index.unit.test.js" />
-      <test-names>
-        <test-name value="Testing StructLog" />
-        <test-name value="scrubs global pii from objects" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="Testing StructLog.scrubs global pii from stringified objects" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/test/unit/logging/index.unit.test.js" />
-      <test-names>
-        <test-name value="Testing StructLog" />
-        <test-name value="scrubs global pii from stringified objects" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="Testing StructLog.scrubs pii from event" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/test/unit/logging/index.unit.test.js" />
-      <test-names>
-        <test-name value="Testing StructLog" />
-        <test-name value="scrubs pii from event" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="index.unit.test.js" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+    <configuration name="logger.test.ts" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
       <jest-package value="$PROJECT_DIR$/node_modules/jest" />
       <working-dir value="$PROJECT_DIR$" />
       <envs />
       <scope-kind value="TEST_FILE" />
-      <test-file value="$PROJECT_DIR$/test/unit/logging/index.unit.test.js" />
+      <test-file value="$PROJECT_DIR$/test/logging/logger.test.ts" />
+      <method v="2" />
+    </configuration>
+    <configuration name="runtime.test.ts" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST_FILE" />
+      <test-file value="$PROJECT_DIR$/test/runtime/runtime.test.ts" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Jest.Testing StructLog.scrubs pii from event" />
-        <item itemvalue="Jest.Testing StructLog.scrubs global pii from stringified objects" />
-        <item itemvalue="Jest.Testing StructLog.scrubs global pii from objects" />
-        <item itemvalue="Jest.index.unit.test.js" />
-        <item itemvalue="Jest.Testing StructLog.emits events in the order received" />
+        <item itemvalue="Jest.Logger tests.should create Logger and output to stdout" />
+        <item itemvalue="Jest.logger.test.ts" />
+        <item itemvalue="Jest.runtime.test.ts" />
+        <item itemvalue="Jest.Logger tests" />
       </list>
     </recent_temporary>
   </component>
@@ -186,7 +175,7 @@
       <workItem from="1594048808740" duration="1955000" />
       <workItem from="1594675046681" duration="1798000" />
       <workItem from="1596251718077" duration="62348000" />
-      <workItem from="1598072864441" duration="34796000" />
+      <workItem from="1598072864441" duration="41215000" />
     </task>
     <servers />
   </component>
@@ -198,6 +187,10 @@
       <screen x="0" y="0" width="1920" height="2093" />
     </state>
     <state x="817" y="928" width="276" height="243" key="#ESLint/0.0.1920.2093@0.0.1920.2093" timestamp="1598223040671" />
+    <state x="418" y="704" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598379347397">
+      <screen x="0" y="0" width="1920" height="2093" />
+    </state>
+    <state x="418" y="704" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.2093@0.0.1920.2093" timestamp="1598379347397" />
     <state x="100" y="100" width="1720" height="1893" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1597880690881">
       <screen x="0" y="0" width="1920" height="2093" />
     </state>
@@ -219,25 +212,25 @@
       <screen x="0" y="0" width="1920" height="2093" />
     </state>
     <state x="743" y="804" width="424" height="491" key="FileChooserDialogImpl/0.0.1920.2093@0.0.1920.2093" timestamp="1598020700535" />
-    <state width="1878" height="236" key="GridCell.Tab.0.bottom" timestamp="1598291073030">
+    <state width="1878" height="757" key="GridCell.Tab.0.bottom" timestamp="1598380163896">
       <screen x="0" y="0" width="1920" height="2093" />
     </state>
-    <state width="1878" height="236" key="GridCell.Tab.0.bottom/0.0.1920.2093@0.0.1920.2093" timestamp="1598291073030" />
+    <state width="1878" height="757" key="GridCell.Tab.0.bottom/0.0.1920.2093@0.0.1920.2093" timestamp="1598380163896" />
     <state width="1878" height="746" key="GridCell.Tab.0.bottom/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920226" />
-    <state width="1878" height="236" key="GridCell.Tab.0.center" timestamp="1598291073029">
+    <state width="1878" height="757" key="GridCell.Tab.0.center" timestamp="1598380163895">
       <screen x="0" y="0" width="1920" height="2093" />
     </state>
-    <state width="1878" height="236" key="GridCell.Tab.0.center/0.0.1920.2093@0.0.1920.2093" timestamp="1598291073029" />
+    <state width="1878" height="757" key="GridCell.Tab.0.center/0.0.1920.2093@0.0.1920.2093" timestamp="1598380163895" />
     <state width="1878" height="746" key="GridCell.Tab.0.center/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920226" />
-    <state width="1878" height="236" key="GridCell.Tab.0.left" timestamp="1598291073028">
+    <state width="1878" height="757" key="GridCell.Tab.0.left" timestamp="1598380163893">
       <screen x="0" y="0" width="1920" height="2093" />
     </state>
-    <state width="1878" height="236" key="GridCell.Tab.0.left/0.0.1920.2093@0.0.1920.2093" timestamp="1598291073028" />
+    <state width="1878" height="757" key="GridCell.Tab.0.left/0.0.1920.2093@0.0.1920.2093" timestamp="1598380163893" />
     <state width="1878" height="746" key="GridCell.Tab.0.left/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920226" />
-    <state width="1878" height="236" key="GridCell.Tab.0.right" timestamp="1598291073030">
+    <state width="1878" height="757" key="GridCell.Tab.0.right" timestamp="1598380163895">
       <screen x="0" y="0" width="1920" height="2093" />
     </state>
-    <state width="1878" height="236" key="GridCell.Tab.0.right/0.0.1920.2093@0.0.1920.2093" timestamp="1598291073030" />
+    <state width="1878" height="757" key="GridCell.Tab.0.right/0.0.1920.2093@0.0.1920.2093" timestamp="1598380163895" />
     <state width="1878" height="746" key="GridCell.Tab.0.right/1175.27.425.873/1600.0.1920.2160@1600.0.1920.2160" timestamp="1592375920226" />
     <state width="1878" height="746" key="GridCell.Tab.1.bottom" timestamp="1598068017789">
       <screen x="0" y="0" width="1920" height="2093" />

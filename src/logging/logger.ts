@@ -58,7 +58,6 @@ class StructLog implements ILogger {
                     ...(options.serializers || {}),
                 },
                 streams: options.streams || [{
-                    type: 'raw',
                     stream: process.stdout,
                 }],
             },

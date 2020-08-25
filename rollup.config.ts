@@ -1,3 +1,4 @@
+
 import json from "rollup-plugin-json";
 import typescript from "rollup-plugin-typescript2";
 import commonjs from "rollup-plugin-commonjs";
@@ -10,8 +11,15 @@ export default [
         input: `src/${pkg.libraryFile}.ts`,
         output: [
             {
+                file: pkg.main,
+                format: 'cjs',
+                exports: 'named',
+                sourcemap: true
+            },
+            {
                 file: pkg.module,
                 format: "es",
+                exports: 'named',
                 sourcemap: true
             }
         ],
@@ -23,7 +31,9 @@ export default [
             nodeResolve({browser:false}),
             json(),
             typescript({
-                typescript: require("typescript")
+                rollupCommonJSResolveHack: true,
+                exclude: 'test',
+                clean: true
             }),
             commonjs({
                 include: /node_modules/,

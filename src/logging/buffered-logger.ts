@@ -116,7 +116,7 @@ class BufferedLogStream extends EventEmitter {
             return `TRUNCATED:${field.substring(0, max)}`;
         }
         if ((_.isObject(field) || _.isArray(field))) {
-            const check = JSON.stringify(field);
+            const check = stringify(field);
             if (check.length > max) {
                 return `TRUNCATED:${check.substring(0, max)}`;
             }

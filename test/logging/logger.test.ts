@@ -31,7 +31,7 @@ describe("Logger tests", () => {
         process.env.LOG_LEVEL = 'debug';
         const logger = new StructLog('Test Logger');
 
-        logger.debug('Test Event');
+        logger.debug('Test Event', {boom:'dynamite'});
         expect(logger.name).toBe('Test Logger');
         expect(events.length).toBe(1)
     });

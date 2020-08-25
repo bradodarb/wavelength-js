@@ -52,9 +52,10 @@
     "src"
   ],
   "exclude": [
-    "node_modules/**/*",
-    ".vscode/**/*",
-    ".idea/**/*"
-  ],
+    "node_modules",
+    "dist",
+    ".vscode",
+    ".idea"
+  ]
 
 }
