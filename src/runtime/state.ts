@@ -8,7 +8,7 @@ enum HANDLER_STATUS {
     FAILURE = 'FAILURE'
 }
 
-interface HandlerState<E extends Object, C extends Object> {
+interface HandlerState<E = any, C = any> {
     name: string;
     event: E;
     context: C;
