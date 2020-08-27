@@ -1,10 +1,15 @@
-interface IIndexed {
+interface Indexed {
     [propName: string]: any;
 }
-interface ICallback {
+interface Callback {
     (error: any, result?: any): void;
 
     (error?: any, result?: any): void;
 }
+type Serializable = string | Object | number | boolean | undefined | Error;
 
-export {IIndexed, ICallback}
+interface Serializer{
+    (item:Serializable): string
+}
+
+export {Indexed, Callback, Serializable, Serializer}

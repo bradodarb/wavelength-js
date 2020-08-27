@@ -1,19 +1,19 @@
-import Logger from "bunyan";
 import * as bunyan from 'bunyan';
+import Logger from 'bunyan';
 import * as _ from 'lodash';
-import {ILogger, LogUtils, ILogEmitter, ILogItem} from '@logging/util';
-import {IIndexed} from '@util/type-utils';
+import {LogEmitter, LogItem, LogUtils, StructuredLogger} from './util';
+import {Indexed} from '../util';
 
 
-class StructLog implements ILogger {
+class StructLog implements StructuredLogger {
     name: string;
-    debug: ILogEmitter;
-    info: ILogEmitter;
-    warn: ILogEmitter;
-    error: ILogEmitter;
-    critical: ILogEmitter;
+    debug: LogEmitter;
+    info: LogEmitter;
+    warn: LogEmitter;
+    error: LogEmitter;
+    critical: LogEmitter;
 
-    logger: Logger & IIndexed;
+    logger: Logger & Indexed;
 
     constructor(name: string, options: any = {}) {
         this.name = name;
@@ -38,7 +38,7 @@ class StructLog implements ILogger {
         const levelName: string = bunyan.nameFromLevel[level];
 
         return function emit() {
-            const entry: ILogItem = self.parseLogArgs(Array.from(arguments));
+            const entry: LogItem = self.parseLogArgs(Array.from(arguments));
             const {
                 event, err, details, limitOutput, bindings,
             } = entry;
@@ -65,8 +65,8 @@ class StructLog implements ILogger {
         });
     }
 
-    protected parseLogArgs(args: any[]): ILogItem {
-        const result: ILogItem = {event: '', level: ''};
+    protected parseLogArgs(args: any[]): LogItem {
+        const result: LogItem = {event: '', level: ''};
         args.forEach((arg) => {
             if (_.isNumber(arg) || _.isString(arg)) {
                 if (result.event) {
@@ -95,4 +95,4 @@ class StructLog implements ILogger {
 
 }
 
-export {StructLog, ILogger, ILogEmitter, ILogItem}
+export {StructLog, StructuredLogger, LogEmitter, LogItem}

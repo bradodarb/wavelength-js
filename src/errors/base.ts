@@ -17,9 +17,9 @@ class CancelExecutionError extends Error {
 class BaseException extends Error {
 
   error:string;
-  reason:string;
-  code: string|number
-  constructor(error:string, reason:string, code:string|number) {
+  reason?:string;
+  code?: string|number
+  constructor(error:string, reason?:string, code?:string|number) {
     super(error);
     this.error = error;
     this.reason = reason;

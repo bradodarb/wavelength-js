@@ -31,12 +31,8 @@ describe("Runtime tests", () => {
         process.env.LOG_LEVEL = 'debug';
 
         const logger = new StructLog('Test Logger');
-        const app = new Runtime<any, any, any, any>('Test App',
-            logger, (state) => {
-                return {response: state.response};
-            }, (state) => {
-                return {error: 'sad panda'};
-            });
+        const app = new Runtime<any, any>('Test App',
+            logger);
         const handler = app.handler((state) => {
             return 'bamboo';
         });
@@ -55,8 +51,8 @@ describe("Runtime tests", () => {
             }, (state) => {
                 return {error: 'sad panda'};
             });
-        app.middleWare.use(state=>{
-           state.push({treat: 'candy'})
+        app.middleWare.use(state => {
+            state.push({treat: 'candy'})
         });
         const handler = app.handler((state) => {
             return 'bamboo';

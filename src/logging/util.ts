@@ -1,9 +1,8 @@
-/** @module logging-utils */
-
-
 import * as bunyan from 'bunyan';
 import * as _ from 'lodash';
-import {IIndexed} from "@util/type-utils";
+import {Indexed, Serializable} from "../util";
+
+
 
 const LOG_LEVEL_MAP = {
     [bunyan.TRACE.toString()]: 'trace',
@@ -13,7 +12,7 @@ const LOG_LEVEL_MAP = {
     [bunyan.FATAL.toString()]: 'fatal',
 };
 
-const REVERSED_LOG_LEVEL_MAP: IIndexed = {
+const REVERSED_LOG_LEVEL_MAP: Indexed = {
     trace: bunyan.TRACE,
     debug: bunyan.DEBUG,
     info: bunyan.INFO,
@@ -21,6 +20,41 @@ const REVERSED_LOG_LEVEL_MAP: IIndexed = {
     fatal: bunyan.FATAL,
 };
 
+interface LogItem {
+    event: Serializable;
+    level: string,
+    details?: Serializable;
+    err?: Serializable;
+    bindings?: Object;
+    limitOutput?: boolean;
+    maxLogLength?: number;
+
+    [propName: string]: any;
+}
+
+interface LogItemCollection {
+    items: LogItem[];
+}
+
+interface LogEmitter {
+    (event: Serializable, details?: Serializable, bindings?: Object): void;
+    (event: Serializable, details?: Serializable, error?: Serializable, bindings?: Object): void;
+}
+
+interface LogItemFilter {
+    (record: LogItem): LogItem;
+}
+
+interface StructuredLogger {
+    name: string;
+    debug: LogEmitter;
+    info: LogEmitter;
+    warn: LogEmitter;
+    error: LogEmitter;
+    critical: LogEmitter;
+    bind(bindings: object):StructuredLogger;
+    close():void;
+}
 
 class LogUtils {
     /**
@@ -84,41 +118,6 @@ class LogUtils {
     }
 }
 
-type loggable = string | Object | number | boolean | Error
 
-interface ILogItem {
-    event: loggable;
-    level: string,
-    details?: loggable;
-    err?: loggable;
-    bindings?: Object;
-    limitOutput?: boolean;
-    maxLogLength?: number;
 
-    [propName: string]: any;
-}
-
-interface ILogItemCollection {
-    items: ILogItem[];
-}
-
-interface ILogEmitter {
-    (event: loggable, details?: loggable, error?: loggable, bindings?: Object): void;
-}
-
-interface ILogItemFilter {
-    (record: ILogItem): ILogItem;
-}
-
-interface ILogger {
-    name: string;
-    debug: ILogEmitter;
-    info: ILogEmitter;
-    warn: ILogEmitter;
-    error: ILogEmitter;
-    critical: ILogEmitter;
-    bind(bindings: object):ILogger;
-    close():void;
-}
-
-export {ILogger, LogUtils, loggable, ILogItem, ILogItemCollection, ILogItemFilter, ILogEmitter, LOG_LEVEL_MAP, REVERSED_LOG_LEVEL_MAP}
+export {StructuredLogger, LogUtils, LogItem, LogItemCollection, LogItemFilter, LogEmitter, LOG_LEVEL_MAP, REVERSED_LOG_LEVEL_MAP}

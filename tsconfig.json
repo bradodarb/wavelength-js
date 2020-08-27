@@ -23,30 +23,7 @@
       "node_modules/@types"
     ],
     "sourceRoot": "/",
-    "baseUrl": "./",
-    "paths": {
-      "@src/*": [
-        "src/*"
-      ],
-      "@logging/*": [
-        "src/logging/*"
-      ],
-      "@util/*": [
-        "src/util/*"
-      ],
-      "@runtime/*": [
-        "src/runtime/*"
-      ],
-      "@middleware/*": [
-        "src/middleware/*"
-      ],
-      "@errors/*": [
-        "src/errors/*"
-      ],
-      "@tests/*": [
-        "tests/*"
-      ]
-    }
+    "baseUrl": "./"
   },
   "include": [
     "src"

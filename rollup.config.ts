@@ -1,10 +1,11 @@
-
 import json from "rollup-plugin-json";
 import typescript from "rollup-plugin-typescript2";
 import commonjs from "rollup-plugin-commonjs";
 import nodeResolve from "rollup-plugin-node-resolve";
-
+import replacement from "rollup-plugin-module-replacement";
 import pkg from "./package.json";
+
+;
 
 export default [
     {
@@ -25,10 +26,10 @@ export default [
         ],
         external: [
             ...Object.keys(pkg.devDependencies || {}),
-            ...['os','fs', 'util','assert','events','stream']
+            ...['os', 'fs', 'util', 'assert', 'events', 'stream', 'module', 'path']
         ],
         plugins: [
-            nodeResolve({browser:false}),
+            nodeResolve({browser: false}),
             json(),
             typescript({
                 rollupCommonJSResolveHack: true,
@@ -43,10 +44,19 @@ export default [
                         'isString',
                         'isNumber',
                         'isObject',
-                        'isArray'
+                        'isArray',
+                        'isFunction'
                     ]
                 }
             }),
+            replacement({
+                entries: [
+                    {
+                        find: '@logging/logger',
+                        replacement: 'dist/logging/logger'
+                    }
+                ]
+            })
         ]
     }
 ];

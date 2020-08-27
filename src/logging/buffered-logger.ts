@@ -3,19 +3,19 @@ import {EventEmitter} from 'events';
 import * as bunyan from 'bunyan';
 import * as _ from 'lodash';
 import stringify from 'fast-safe-stringify';
-import {StructLog} from "@logging/logger";
-import {ILogItem, ILogItemCollection, ILogItemFilter, LOG_LEVEL_MAP, REVERSED_LOG_LEVEL_MAP} from "@logging/util";
+import {StructLog} from "./logger";
+import {LogItem, LogItemCollection, LogItemFilter, LOG_LEVEL_MAP, REVERSED_LOG_LEVEL_MAP} from "./util";
 
 
 class BufferedLogStream extends EventEmitter {
-    records: ILogItem[];
+    records: LogItem[];
     limit: number;
     writable: boolean;
-    filters?: ILogItemFilter[];
+    filters?: LogItemFilter[];
     additionalItems: Object[]
     buffer: boolean;
 
-    constructor(limit: number = 100, filters: ILogItemFilter[] = []) {
+    constructor(limit: number = 100, filters: LogItemFilter[] = []) {
         super();
         this.limit = limit;
         this.writable = true;
@@ -26,7 +26,7 @@ class BufferedLogStream extends EventEmitter {
     }
 
 
-    write(record: ILogItem) {
+    write(record: LogItem) {
         if (!this.writable) {
             throw (new Error('BufferedStream has been ended already'));
         }
@@ -63,7 +63,7 @@ class BufferedLogStream extends EventEmitter {
     }
 
 
-    sanitize(record: ILogItem): ILogItem {
+    sanitize(record: LogItem): LogItem {
         const recordCopy = JSON.parse(this.serialize(record));
         if (recordCopy.msg) {
             recordCopy.event = recordCopy.msg;
@@ -100,7 +100,7 @@ class BufferedLogStream extends EventEmitter {
      * @param record {object} original log event
      * @returns {{level: string, event: string, interim_desc: string, name: undefined}}
      */
-    protected getRecordDefaults(record: ILogItem) {
+    protected getRecordDefaults(record: LogItem) {
         const {maxLength: max} = record;
         return {
             level: LOG_LEVEL_MAP[record.level],
@@ -124,7 +124,7 @@ class BufferedLogStream extends EventEmitter {
         return field;
     }
 
-    protected serialize(source: ILogItem | ILogItemCollection): string {
+    protected serialize(source: LogItem | LogItemCollection): string {
         const originalBufferToJSON = Buffer.prototype.toJSON;
         Buffer.prototype.toJSON = () => {
             return {
@@ -145,7 +145,7 @@ class BufferedLogStream extends EventEmitter {
      *  https://forums.aws.amazon.com/thread.jspa?messageID=739180
      * @param record {*}
      */
-    protected dump(record: ILogItem | ILogItemCollection): void {
+    protected dump(record: LogItem | LogItemCollection): void {
         try {
             process.stdout.write(this.serialize(record));
         } catch (e) {

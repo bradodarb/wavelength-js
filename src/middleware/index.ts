@@ -1,32 +1,31 @@
-import {ILogItem} from "@logging/util";
-import {IHandlerState} from "@runtime/handler-state";
+import {HandlerState} from "../runtime";
 
-interface IMiddleWareTerminalFunction{
+interface MiddleWareTerminalFunction {
     (error?: Error): void | never;
 
 }
 
 
-interface IMiddleWareFunction<E, C> {
-    (state: IHandlerState<E, C>): void | Error | Promise<void | Error>;
+interface MiddleWareFunction<E, C> {
+    (state: HandlerState<E, C>): void | Error | Promise<void | Error>;
 }
 
-interface IMiddleWare<E, C> {
-    invoke: IMiddleWareFunction<E, C>;
-    next: IMiddleWare<E, C> | null;
+interface MiddleWareInvoker<E, C> {
+    invoke: MiddleWareFunction<E, C>;
+    next: MiddleWareInvoker<E, C> | null;
 }
 
 class MiddleWare<E, C> {
-    wares: IMiddleWare<E, C>[];
-    complete: IMiddleWareTerminalFunction;
+    wares: MiddleWareInvoker<E, C>[];
+    complete: MiddleWareTerminalFunction;
 
-    constructor(terminalFunction: IMiddleWareTerminalFunction) {
+    constructor(terminalFunction: MiddleWareTerminalFunction) {
         this.complete = terminalFunction;
         this.wares = [];
     }
 
 
-    use(ware: IMiddleWareFunction<E, C>): MiddleWare<E, C> {
+    use(ware: MiddleWareFunction<E, C> | MiddleWareFunction<E, C>[]): MiddleWare<E, C> {
         let wares = [];
         if (Array.isArray(ware)) {
             wares = ware;
@@ -49,13 +48,13 @@ class MiddleWare<E, C> {
         return this;
     }
 
-    async invoke(state: IHandlerState<E, C>) {
+    async invoke(state: HandlerState<E, C>) {
         if (!this.wares.length) {
             this.complete();
             return;
         }
 
-        let ware: IMiddleWare<E, C>| null = this.wares[0];
+        let ware: MiddleWareInvoker<E, C> | null = this.wares[0];
         while (ware) {
             const error = await ware.invoke(state);
             if (error) {
@@ -68,4 +67,4 @@ class MiddleWare<E, C> {
     }
 }
 
-export {MiddleWare, IMiddleWareFunction, IMiddleWare, IMiddleWareTerminalFunction}
+export {MiddleWare, MiddleWareFunction, MiddleWareInvoker, MiddleWareTerminalFunction}
