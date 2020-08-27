@@ -1,1 +1,3 @@
-export {Indexed, Callback, Serializable} from './type-utils'
+export * from './type-utils';
+export * from './object-utils'
+

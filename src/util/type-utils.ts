@@ -11,5 +11,8 @@ type Serializable = string | Object | number | boolean | undefined | Error;
 interface Serializer{
     (item:Serializable): string
 }
+interface Deserializer<T = any> {
+    (item:string): T
+}
 
-export {Indexed, Callback, Serializable, Serializer}
+export {Indexed, Callback, Serializable, Serializer, Deserializer}

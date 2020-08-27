@@ -32,7 +32,9 @@
     "watch": "rollup -cw rollup.config.ts",
     "configure-npm": "node ./set-registry.js -s https://registry.npmjs.org",
     "configure-gpr": "node ./set-registry.js -s https://npm.pkg.github.com",
-    "test": "jest"
+    "lint": "eslint src/** --fix",
+    "test": "jest test/unit/**",
+    "coverage": "jest --collectCoverageFrom=src/**/*.ts --coverage test/unit"
   },
   "publishConfig": {
     "access": "public"
