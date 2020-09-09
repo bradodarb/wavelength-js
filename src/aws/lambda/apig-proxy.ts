@@ -13,7 +13,7 @@ function buildAPIGatewayProxyResult(
         body: _.isObject(state.value) ? stringify(state.value) : String(state.value),
         headers: state.responseHeaders || {},
         multiValueHeaders: state.multiValueHeaders || {},
-        statusCode: state.statusCode || defaultStatusCode,
+        statusCode: state.statusCode || _.get(state, 'value.error.code') || defaultStatusCode,
         isBase64Encoded: state.isBase64Encoded || false
     };
 }
@@ -35,6 +35,6 @@ export default function APIGatewayProxyApplication(
     (name, logger, formatApiResult, formatApiError);
     app.middleWare.use(middleWares);
     attachTraceLogger(app);
-
+    app.state.throwOnError = false;
     return app;
 }

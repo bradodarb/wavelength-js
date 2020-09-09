@@ -7,24 +7,24 @@ interface MiddleWareTerminalFunction {
 }
 
 
-interface MiddleWareFunction<E, C> {
+interface MiddleWareFunction<E = any, C = any> {
     (state: HandlerState<E, C>): void | Error | Promise<void | Error>;
 }
 
-interface MiddleWareInvoker<E, C> {
+interface MiddleWareInvoker<E = any, C = any> {
     invoke: MiddleWareFunction<E, C>;
     next: MiddleWareInvoker<E, C> | null;
 }
 
-interface MiddleWareFactory<E, C> {
+interface MiddleWareFactory<E = any, C = any> {
     (): MiddleWareFunction<E, C>
 }
 
-interface MiddleWareProvider<E, C> {
+interface MiddleWareProvider<E = any, C = any> {
     middleWare: MiddleWareFactory<E, C>
 }
 
-type MiddleWareSource<E, C> = MiddleWareProvider<E, C> | MiddleWareFactory<E, C> | MiddleWareFunction<E, C>;
+type MiddleWareSource<E = any, C = any> = MiddleWareProvider | MiddleWareFactory | MiddleWareFunction;
 
 function isMiddleWareProvider<E, C>(source: any): source is MiddleWareProvider<E, C> {
     return source && _.isFunction(source.middleWare) && source.middleWare.length === 0;
@@ -38,7 +38,7 @@ function isMiddleWareFunction<E, C>(source: any): source is MiddleWareFunction<E
     return _.isFunction(source) && source.length === 1;
 }
 
-function resolveMiddleWareSource<E, C>(source: MiddleWareSource<E, C>): MiddleWareFunction<E, C> | null {
+function resolveMiddleWareSource<E, C>(source: MiddleWareSource): MiddleWareFunction<E, C> | null {
     if (isMiddleWareFunction<E, C>(source)) {
         return source;
     }
@@ -104,4 +104,12 @@ class MiddleWare<E, C> {
     }
 }
 
-export {MiddleWare, MiddleWareFunction, MiddleWareInvoker, MiddleWareTerminalFunction, MiddleWareFactory, MiddleWareProvider}
+export {
+    MiddleWare,
+    MiddleWareFunction,
+    MiddleWareInvoker,
+    MiddleWareTerminalFunction,
+    MiddleWareFactory,
+    MiddleWareProvider,
+    MiddleWareSource
+}

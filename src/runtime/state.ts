@@ -37,12 +37,14 @@ class State<E, C> implements HandlerState<E, C> {
     event: E;
     context: C;
     logger: StructuredLogger;
+    throwOnError: boolean;
 
     constructor(name: string, event: E, context: C, logger: StructuredLogger) {
         this.name = name;
         this.event = event;
         this.context = context;
         this.logger = logger;
+        this.throwOnError = true;
         this._status = HANDLER_STATUS.INIT;
 
     }
@@ -72,12 +74,6 @@ class State<E, C> implements HandlerState<E, C> {
     push(value: Object) {
         if (!value) {
             return;
-        }
-        const accessViolation = Object.keys(value).some(key => {
-            return this.hasOwnProperty(key);
-        });
-        if (accessViolation) {
-            throw new Error('Unable to override HandlerState member')
         }
         Object.assign(this, value);
     }

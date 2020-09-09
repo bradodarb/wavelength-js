@@ -37,4 +37,10 @@ class BaseException extends Error {
   }
 }
 
+export class FailedExecutionException extends BaseException{
+  constructor(message:string, error:string = 'Application Execution Exception') {
+    super(error, message, 'FAILED EXECUTION');
+  }
+}
+
 export { BaseException, CancelExecutionError };

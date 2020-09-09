@@ -1,4 +1,5 @@
-import KinesisEventParserMiddleware from './kinesis-event-parser-middleware';
+import {KinesisEventParserMiddleware} from './kinesis-event-parser-middleware';
 
+import LogLambdaMiddleware from './log-lambda-middleware'
 
-export {KinesisEventParserMiddleware};
+export {KinesisEventParserMiddleware, LogLambdaMiddleware};

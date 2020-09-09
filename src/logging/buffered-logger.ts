@@ -4,7 +4,14 @@ import * as bunyan from 'bunyan';
 import * as _ from 'lodash';
 import stringify from 'fast-safe-stringify';
 import {StructLog} from "./logger";
-import {LogItem, LogItemCollection, LogItemFilter, LOG_LEVEL_MAP, REVERSED_LOG_LEVEL_MAP} from "./util";
+import {LOG_LEVEL_MAP, LogItem, LogItemCollection, LogItemFilter, REVERSED_LOG_LEVEL_MAP} from "./util";
+import {Metrics} from "./metrics";
+import {Serializable} from "../util";
+
+interface Inoculation {
+    result:Serializable
+}
+
 
 
 class BufferedLogStream extends EventEmitter {
@@ -12,9 +19,8 @@ class BufferedLogStream extends EventEmitter {
     limit: number;
     writable: boolean;
     filters?: LogItemFilter[];
-    additionalItems: Object[]
-    buffer: boolean;
-
+    additionalItems: Object[];
+    inoculations:Inoculation[] ;
     constructor(limit: number = 100, filters: LogItemFilter[] = []) {
         super();
         this.limit = limit;
@@ -22,7 +28,7 @@ class BufferedLogStream extends EventEmitter {
         this.records = [];
         this.filters = filters;
         this.additionalItems = [];
-        this.buffer = limit > 0;
+        this.inoculations = [];
     }
 
 
@@ -32,17 +38,14 @@ class BufferedLogStream extends EventEmitter {
         }
         const logRecord = this.sanitize(record);
 
-        if (!this.buffer) {
-            this.dump(logRecord);
-            return this;
-        }
+
         if (REVERSED_LOG_LEVEL_MAP[logRecord.level] > bunyan.WARN) {
             this.dump(logRecord);
         }
         this.records.push(logRecord);
 
 
-        if (this.records.length > this.limit) {
+        if (this.records.length >= this.limit) {
             this.drain();
         }
 
@@ -94,6 +97,37 @@ class BufferedLogStream extends EventEmitter {
         }
         this.additionalItems.push(item);
     }
+    inoculate(item: Inoculation): void {
+        if (!_.isObject(item)) {
+            return;
+        }
+        this.inoculations.push(item);
+
+    }
+    /**
+     * Stream interface support
+     * see: https://nodejs.org/api/stream.html
+     */
+    end(): void {
+        this.writable = false;
+    }
+
+    /**
+     * Stream interface support
+     * see: https://nodejs.org/api/stream.html
+     */
+    destroy(): void {
+        this.writable = false;
+        this.emit('close');
+    }
+
+    /**
+     * Stream interface support
+     * see: https://nodejs.org/api/stream.html
+     */
+    destroySoon(): void {
+        this.destroy();
+    }
 
     /**
      * Appends the standard log K/V pairs required for every log event
@@ -109,7 +143,6 @@ class BufferedLogStream extends EventEmitter {
             name: undefined,
         };
     }
-
 
     protected truncate(field: string, max: number): string {
         if (max && _.isString(field) && field.length > max) {
@@ -147,35 +180,13 @@ class BufferedLogStream extends EventEmitter {
      */
     protected dump(record: LogItem | LogItemCollection): void {
         try {
+            this.inoculations.forEach((item) => {
+                record = Object.assign(record, item.result);
+            });
             process.stdout.write(this.serialize(record));
         } catch (e) {
             // /Swallow errors ...
         }
-    }
-
-    /**
-     * Stream interface support
-     * see: https://nodejs.org/api/stream.html
-     */
-    end(): void {
-        this.writable = false;
-    }
-
-    /**
-     * Stream interface support
-     * see: https://nodejs.org/api/stream.html
-     */
-    destroy(): void {
-        this.writable = false;
-        this.emit('close');
-    }
-
-    /**
-     * Stream interface support
-     * see: https://nodejs.org/api/stream.html
-     */
-    destroySoon(): void {
-        this.destroy();
     }
 }
 
@@ -183,7 +194,9 @@ export default class BufferedLogger extends StructLog {
     buffer: BufferedLogStream;
 
     constructor(name: string, options: any = {}) {
-        const buffer = new BufferedLogStream(options.limit, options.filters)
+        const buffer = new BufferedLogStream(
+            parseInt(process.env.LOG_BUFFER_SIZE || '100', 10)
+            , options.filters)
         super(name, Object.assign({}, options, {
             streams: [
                 {
@@ -193,6 +206,7 @@ export default class BufferedLogger extends StructLog {
             ]
         }));
         this.buffer = buffer;
+        this.buffer.inoculate(this.metrics);
     }
 
     append(item: object): void {
@@ -201,7 +215,6 @@ export default class BufferedLogger extends StructLog {
 
     close(): void {
         if (this.buffer) {
-
             this.buffer.drain();
         }
     }

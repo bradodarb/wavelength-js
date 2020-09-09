@@ -1,5 +1,5 @@
-interface Indexed {
-    [propName: string]: any;
+interface Indexed<T = any> {
+    [propName: string]: T;
 }
 interface Callback {
     (error: any, result?: any): void;

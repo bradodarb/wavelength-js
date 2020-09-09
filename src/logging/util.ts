@@ -3,7 +3,6 @@ import * as _ from 'lodash';
 import {Indexed, Serializable} from "../util";
 
 
-
 const LOG_LEVEL_MAP = {
     [bunyan.TRACE.toString()]: 'trace',
     [bunyan.DEBUG.toString()]: 'debug',
@@ -37,23 +36,60 @@ interface LogItemCollection {
 }
 
 interface LogEmitter {
-    (event: Serializable, details?: Serializable, bindings?: Object): void;
-    (event: Serializable, details?: Serializable, error?: Serializable, bindings?: Object): void;
+    (event: Serializable): StructuredLogger;
+    (event: Serializable, details?: Serializable, bindings?: Object): StructuredLogger;
+    (event: Serializable, details?: Serializable, error?: Serializable, bindings?: Object): StructuredLogger;
 }
 
 interface LogItemFilter {
     (record: LogItem): LogItem;
 }
 
+
+interface Metric<T = Serializable> {
+    name: string;
+    format(): T
+}
+interface MetricsGauge extends Metric{
+    update(value: number): void;
+}
+interface MetricsCounter extends Metric{
+    inc(value?: number): void;
+    dec(value?: number): void;
+}
+interface MetricsSet<T=Serializable> extends Metric{
+    update(value: T[]): void;
+    append(value: T): void;
+    remove(value: T): void;
+    reset(): void;
+}
+interface MetricsTimer extends Metric{
+    start(): void;
+    stop(): void;
+}
+interface MetricCollector {
+    result:Indexed
+    reset():void;
+    set(name:string): MetricsSet
+    gauge(name:string): MetricsGauge
+    timer(name:string): MetricsTimer
+    counter(name:string): MetricsCounter
+    timerGauge(name:string): MetricsTimer
+}
+
 interface StructuredLogger {
     name: string;
+    trace: LogEmitter;
     debug: LogEmitter;
     info: LogEmitter;
     warn: LogEmitter;
     error: LogEmitter;
     critical: LogEmitter;
-    bind(bindings: object):StructuredLogger;
-    close():void;
+    metrics: MetricCollector;
+
+    bind(bindings: object): StructuredLogger;
+
+    close(): void;
 }
 
 class LogUtils {
@@ -74,7 +110,7 @@ class LogUtils {
                 return numericLevel;
             }
             if (process.env.LOG_LEVEL) {
-                const level: bunyan.LogLevelString = <bunyan.LogLevelString>process.env.LOG_LEVEL;
+                const level: bunyan.LogLevelString = <bunyan.LogLevelString>process.env.LOG_LEVEL.toLowerCase();
                 return bunyan.levelFromName[level]
             }
             return bunyan.DEBUG;
@@ -119,5 +155,8 @@ class LogUtils {
 }
 
 
-
-export {StructuredLogger, LogUtils, LogItem, LogItemCollection, LogItemFilter, LogEmitter, LOG_LEVEL_MAP, REVERSED_LOG_LEVEL_MAP}
+export {
+    StructuredLogger, LogUtils, LogItem, LogItemCollection, LogItemFilter,
+    LogEmitter, LOG_LEVEL_MAP, REVERSED_LOG_LEVEL_MAP,
+    Metric, MetricsGauge, MetricsCounter, MetricsSet, MetricsTimer, MetricCollector
+}

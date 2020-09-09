@@ -99,4 +99,4 @@ class KinesisProducer<T = Serializable> {
     }
 }
 
-export {KinesisProducer, KinesisProducerOptions, MAX_BATCH_SIZE};
+export {KinesisProducer, KinesisProducerOptions, TooManyItemsForBatchException, TooFewItemsForBatchException};

@@ -1,17 +1,17 @@
 {
   "name": "wavelength-js",
-  "version": "3.0.17",
+  "version": "3.0.38",
   "license": "MIT",
   "author": "Brad Murry",
   "description": "FAAS Micro Framework",
   "homepage": "https://bradodarb.github.com/wavelength-js/README.md",
   "keywords": [
-    "TypeScript",
-    "JavaScript",
     "FAAS",
     "aws",
     "lambda",
-    "middleware"
+    "middleware",
+    "TypeScript",
+    "JavaScript"
   ],
   "libraryFile": "index",
   "main": "./dist/index.js",
@@ -55,7 +55,6 @@
     "rollup": "^2.23.1",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "^4.0.0",
-    "rollup-plugin-module-replacement": "^1.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.6.2",
     "rollup-plugin-typescript2": "^0.27.2",

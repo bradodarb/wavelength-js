@@ -4,7 +4,8 @@ import {HANDLER_STATUS, HandlerState, State} from "./state";
 import {MiddleWare} from "../middleware";
 import {BaseException, CancelExecutionError} from "../errors";
 import {Callback, Serializable} from "../util";
-
+import {FailedExecutionException} from "../errors/base";
+import {isUndefined, get} from "lodash";
 
 interface Handler<E, C> {
     (event: E, context: C): any
@@ -71,6 +72,9 @@ class Runtime<E, C, S = Serializable, F = Serializable> extends EventEmitter {
         const result = this.closeLambda();
         this.emit('exit', this.state);
         this.logger.close();
+        if(this.state.throwOnError && this.state.status === HANDLER_STATUS.FAILURE){
+            throw  result;
+        }
         return result;
     }
 
@@ -81,7 +85,7 @@ class Runtime<E, C, S = Serializable, F = Serializable> extends EventEmitter {
         if (this.checkApplicationError(error)) {
             return;
         }
-        this.state.error = {message: error.message, error: error.toString()};
+        this.state.error = {message: error.message, exception: error.toString()};
 
     }
 

@@ -37,7 +37,7 @@ describe("Logger tests", () => {
     });
 
     it("should create Logger with buffered stream", () => {
-        process.env.LOG_LEVEL = 'debug';
+        process.env.LOG_LEVEL = 'DEBUG';
         const logger = new BufferedLogger('Test Logger');
 
         logger.debug('Test Event');
@@ -49,6 +49,18 @@ describe("Logger tests", () => {
         expect(events.length).toBe(1);
         const logBuffer = JSON.parse(events[0])
         expect(logBuffer.items.length).toBe(2);
+    });
+
+    it("should append bindings on chained calls", () => {
+        process.env.LOG_LEVEL = 'debug';
+        const logger = new StructLog('Test Logger');
+
+        logger.info('Some Event', 'The deets!', {smol:'thing'}).debug({big:[1,2,3,4,5,6,7,8,9,10]})
+
+        expect(logger.name).toBe('Test Logger');
+        expect(events.length).toBe(2)
+        const logBuffer = JSON.parse(events[0])
+
     });
 
 });

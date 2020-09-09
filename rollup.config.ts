@@ -2,10 +2,8 @@ import json from "rollup-plugin-json";
 import typescript from "rollup-plugin-typescript2";
 import commonjs from "rollup-plugin-commonjs";
 import nodeResolve from "rollup-plugin-node-resolve";
-import replacement from "rollup-plugin-module-replacement";
 import pkg from "./package.json";
 
-;
 
 export default [
     {
@@ -26,7 +24,7 @@ export default [
         ],
         external: [
             ...Object.keys(pkg.devDependencies || {}),
-            ...['os', 'fs', 'util', 'assert', 'events', 'stream', 'module', 'path']
+            ...['os', 'fs', 'util', 'assert', 'events', 'stream', 'module', 'path', 'perf_hooks']
         ],
         plugins: [
             nodeResolve({browser: false}),
@@ -45,17 +43,16 @@ export default [
                         'isNumber',
                         'isObject',
                         'isArray',
-                        'isFunction'
+                        'isFunction',
+                        'isEmpty',
+                        'isUndefined',
+                        'isBoolean',
+                        'get'
+                    ],
+                    'node_modules/bunyan/lib/bunyan.js': [
+                        'stdSerializers'
                     ]
                 }
-            }),
-            replacement({
-                entries: [
-                    {
-                        find: '@logging/logger',
-                        replacement: 'dist/logging/logger'
-                    }
-                ]
             })
         ]
     }
