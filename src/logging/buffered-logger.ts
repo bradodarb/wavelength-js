@@ -5,13 +5,11 @@ import * as _ from 'lodash';
 import stringify from 'fast-safe-stringify';
 import {StructLog} from "./logger";
 import {LOG_LEVEL_MAP, LogItem, LogItemCollection, LogItemFilter, REVERSED_LOG_LEVEL_MAP} from "./util";
-import {Metrics} from "./metrics";
 import {Serializable} from "../util";
 
 interface Inoculation {
-    result:Serializable
+    result: Serializable
 }
-
 
 
 class BufferedLogStream extends EventEmitter {
@@ -20,7 +18,9 @@ class BufferedLogStream extends EventEmitter {
     writable: boolean;
     filters?: LogItemFilter[];
     additionalItems: Object[];
-    inoculations:Inoculation[] ;
+    inoculations: Inoculation[];
+    outputCall: Function;
+
     constructor(limit: number = 100, filters: LogItemFilter[] = []) {
         super();
         this.limit = limit;
@@ -29,6 +29,11 @@ class BufferedLogStream extends EventEmitter {
         this.filters = filters;
         this.additionalItems = [];
         this.inoculations = [];
+        if (process.env.USE_CONSOLE_LOGGER) {
+            this.outputCall = console.debug.bind(console);
+        }else{
+            this.outputCall = process.stdout.write.bind(process.stdout);
+        }
     }
 
 
@@ -97,6 +102,7 @@ class BufferedLogStream extends EventEmitter {
         }
         this.additionalItems.push(item);
     }
+
     inoculate(item: Inoculation): void {
         if (!_.isObject(item)) {
             return;
@@ -104,6 +110,7 @@ class BufferedLogStream extends EventEmitter {
         this.inoculations.push(item);
 
     }
+
     /**
      * Stream interface support
      * see: https://nodejs.org/api/stream.html
@@ -183,7 +190,7 @@ class BufferedLogStream extends EventEmitter {
             this.inoculations.forEach((item) => {
                 record = Object.assign(record, item.result);
             });
-            process.stdout.write(this.serialize(record));
+            this.outputCall(this.serialize(record));
         } catch (e) {
             // /Swallow errors ...
         }

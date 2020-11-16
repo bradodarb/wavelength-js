@@ -3,11 +3,11 @@ import {StructuredLogger} from "../logging";
 import {HANDLER_STATUS, HandlerState, State} from "./state";
 import {MiddleWare} from "../middleware";
 import {BaseException, CancelExecutionError} from "../errors";
-import {Callback, Serializable} from "../util";
+import {Callback, Indexed, Serializable} from "../util";
 import {FailedExecutionException} from "../errors/base";
 import {isUndefined, get} from "lodash";
 
-interface Handler<E, C> {
+interface Handler<E=Indexed, C=Indexed> {
     (event: E, context: C): any
 }
 
@@ -66,6 +66,7 @@ class Runtime<E, C, S = Serializable, F = Serializable> extends EventEmitter {
             await this.middleWare.invoke(this.state);
             this.emit('success', this.state);
         } catch (e) {
+            this.logger.error('Runtime Error', 'Exception thrown during execution', e);
             this.handleError(e);
             this.emit('failure', this.state);
         }

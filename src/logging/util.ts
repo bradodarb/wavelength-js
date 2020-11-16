@@ -48,7 +48,8 @@ interface LogItemFilter {
 
 interface Metric<T = Serializable> {
     name: string;
-    format(): T
+    format(): T;
+    tags:Indexed;
 }
 interface MetricsGauge extends Metric{
     update(value: number): void;

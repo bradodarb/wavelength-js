@@ -26,7 +26,9 @@ export class KinesisEventParserMiddleware implements MiddleWareProvider<KinesisS
             state.event.Records.forEach(record => {
                 const payload = this.parser(Buffer.from(record.kinesis.data, 'base64').toString('ascii'));
                 if(this.filter(payload)){
-                    records.push(this.transform(payload));
+                    const transformed = this.transform(payload);
+                    state.logger.trace('Matched and Transformed Kinesis Record', {transformed});
+                    records.push(transformed);
                 }
             })
             state.push({records});

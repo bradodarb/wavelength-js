@@ -9,6 +9,7 @@ class GaugeMetric implements MetricsGauge {
     name: string;
     value: Indexed = {};
     private values: number[] = [];
+    tags: Indexed = {};
 
     constructor(name: string, initialValue?: number) {
         this.name = name;
@@ -34,6 +35,7 @@ class GaugeMetric implements MetricsGauge {
 class CounterMetric implements MetricsCounter {
     name: string;
     value: number;
+    tags: Indexed = {};
 
     constructor(name: string, initialValue: number = 0) {
         this.name = name;
@@ -64,6 +66,7 @@ class CounterMetric implements MetricsCounter {
 class SetMetric<T = Serializable> implements MetricsSet<T> {
     name: string;
     value: Set<T>;
+    tags: Indexed = {};
 
     constructor(name: string, initialValue: T[] = []) {
         this.name = name;
@@ -95,6 +98,7 @@ class TimerMetric implements MetricsTimer {
     name: string;
     startTime: number;
     value: number;
+    tags: Indexed = {};
 
     constructor(name: string) {
         this.name = name;
@@ -113,7 +117,7 @@ class TimerMetric implements MetricsTimer {
             return;
         }
         this.value = performance.now() - this.startTime;
-        this.startTime = this.value;
+        this.startTime = 0;
     }
 
     format() {
@@ -121,10 +125,11 @@ class TimerMetric implements MetricsTimer {
     }
 }
 
-class TimerGaugeMetric implements MetricsTimer  {
+class TimerGaugeMetric implements MetricsTimer {
     name: string;
     startTime: number;
     value: number;
+    tags: Indexed = {};
     private values: number[] = [];
 
     constructor(name: string) {
@@ -144,14 +149,16 @@ class TimerGaugeMetric implements MetricsTimer  {
             return;
         }
         this.value = performance.now() - this.startTime;
-        this.startTime = this.value;
+        this.startTime = 0;
         this.values.push(this.value);
     }
 
     format() {
         return {
             min: Math.min(...this.values),
-            max: Math.max(...this.values)
+            max: Math.max(...this.values),
+            mean: this.values.reduce((p, c, _, a) => p + c / a.length, 0),
+            values: this.values
         }
     }
 }
@@ -222,6 +229,7 @@ class Metrics implements MetricCollector {
         }
         return this.timerGauges[name];
     }
+
     counter(name: string) {
         if (!this.counters[name]) {
             this.counters[name] = new CounterMetric(name);
@@ -236,6 +244,9 @@ class Metrics implements MetricCollector {
         const keys = Object.keys(metrics);
         keys.forEach(k => {
             result[key][k] = metrics[k].format();
+            if(!_.isEmpty(metrics[k].tags)){
+                result[key][`${k}::tags`] = metrics[k].tags;
+            }
         })
 
         return result;
